@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.string('rank_value');
       table.integer('user_id')
       table.integer('resource_id').unsigned().notNullable().onDelete('cascade').references('id').inTable('resources')
-    });
+    }); 
   };
   
   exports.down = function(knex, Promise) {
