@@ -9,5 +9,10 @@ $(document).ready(function(){
   //     }
   //   });;
   // });
-  
+    const button = $('button');
+    button.on('click', function(e) {
+      e.preventDefault();
+      $.post('api/resource'
+      )
+    })
 })
