@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.string('rank_value');
       table.integer('user_id')
-      table.integer('resource_id').unsigned().notNullable().onDelete('cascade').references('id').inTable('resources')
+      table.integer('resource_id').references('id').inTable('resources').notNull().onDelete('cascade');
     }); 
   };
   
