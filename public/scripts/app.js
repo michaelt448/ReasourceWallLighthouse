@@ -12,6 +12,25 @@ $(document).ready(function(){
     const logInButton = $('button.login');
     const likeButton = $('button.like');
     const user_id = $('input');
+
+    const renderPage = () => {
+      $.get('api/resources/:id')
+      .then(function(response){
+        response.json();
+      })
+      .then(function(object)) {
+        if($.cookie('user_id')) {
+          renderUserSpecificPage(object);
+        } else {
+          renderPublicPage(object);
+        }
+      } 
+    }
+
+    function checkCookie() {
+      console.log($.cookie('user_id'));
+    }
+
     likeButton.on('click', function(e) {
       e.preventDefault();
       $.post('/api/resources')
@@ -24,4 +43,7 @@ $(document).ready(function(){
       console.log('I posted a login');
       });
     }) 
+
+    //renderPage()
+    checkCookie();
 })
