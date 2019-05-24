@@ -6,14 +6,7 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
-  router.get('/resources', (req, res) => {
-    knex
-      .select('*')
-      .from('resouces')
-      .then((results) => {
-        res.json(results);
-      });
-  });
+
 
   router.post('/', (req, res) => {
     knex('resources').insert({
@@ -23,8 +16,8 @@ module.exports = (knex) => {
       user_id: 3,
       category: 'Front-end',
       url_img: './public/images/colour-hunt-css.png'
-    }).returning(['title', 'url']).then((result) => {
-      res.json({ message: "Successful request", result });
+    }).returning(['url','title','description','user_id','category','create_at','url_img']).then((result) => {
+      res.json({ message: "Successful request to resource table", result });
     });
 
   });
@@ -34,15 +27,16 @@ module.exports = (knex) => {
     knex('comments').insert({
       user_id: 2,
       resource_id: 1,
-      Comment: "Great resource- thanks for posting!"
+      comment: "Great resource- thanks for posting!"
+    }).returning(['comment','user_id','resource_id','created_at']).then((result) => {
+      res.json({ message: "Successful request to commit table", result });
     });
   });
 
   router.patch('/:id/rank/:rank_id', (req, res) => {
     knex('rank').update({
       rank_value: 4
-    }
-    );
+    });
   });
 
 
