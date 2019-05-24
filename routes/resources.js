@@ -35,9 +35,9 @@ module.exports = (knex) => {
 
   router.patch('/:id/rank/:rank_id', (req, res) => {
     knex('rank').update(
-      'rank_value', '4'
-    ).returning(['rank_value']).then((result) => {
-      res.json({ message: "Successful request to rank table", result });
+      'rank_value', '2'
+    ).then((result) => {
+      res.json({ message: "rank_value succesfully updated in rank table"});
     });
   });
 
