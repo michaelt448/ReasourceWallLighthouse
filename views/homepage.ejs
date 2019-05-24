@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <title>Home Page</title>
-
+<link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -11,7 +16,35 @@
     <script async type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
-  <body>
-    <h1>Hello World!</h1>
+  <body> 
+
+    <nav id="nav-bar">
+      <div class="navdiv">
+        <span class="header tweeter">Welcome to the resource board</span>
+      </div>
+      <button class="compose-button">
+        <i class="fas fa-edit"></i>
+        Compose
+      </button>
+    </nav>
+
+  <main class="container">
+
+      <section class="new-url">
+        <h2>Add new resource:</h2>
+        <form method="POST" action="/">
+          <textarea placeholder="Add URL..." required="required" class="url-area" name="text"></textarea>
+          <textarea placeholder="Title..." required="required" class="title-area" name="text"></textarea>
+          <textarea placeholder="Description..." required="required" class="descr-area" name="text"></textarea>
+          <textarea placeholder="Category..." required="required" class="cat-area" name="text"></textarea>
+          <textarea placeholder="Image URL..."></textarea>
+          <input type="submit" value="Add" />
+          <%# <span class="counter">140</span> %>
+        </form>
+      </section>
+
+      <section class="container-tweets"></section>
+    </main>
+
   </body>
 </html>
