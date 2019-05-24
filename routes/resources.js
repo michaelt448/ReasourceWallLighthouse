@@ -113,14 +113,14 @@ router.get('/', (req, res) => {
         });
 });
 
-router.post('/resources/:id/like', (req, res) => {
+router.post('/:id/like', (req, res) => {
     console.log('i am in id like');
     const current_user = req.session.user_id;
     knex('likes').insert(
         {user_id : current_user, resource_id : req.params.resource_id});
 });
 
-router.delete('/resources/:id/like'), (req, res) => {
+router.delete('/:id/like'), (req, res) => {
     const current_user = req.session.user_id;
     knex('likes').where({user_id : current_user}).del();
 }
