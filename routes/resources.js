@@ -53,9 +53,86 @@ module.exports = (knex) => {
 
 
 
+  router.get("/", (req, res) => {
+    knex
+      .select("*")
+      .from("resources")
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
+  router.get("/:id", (req, res) => {
+    var id = req.params.id;
+    id = parseInt(id);
+    knex
+      .select("*")
+      .from("resources")
+      .where("id", id)
+      // .where("id: 1")//, req.params.id)
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
+  router.get("/:id/favourites", (req, res) => {
+    var id = req.params.id;
+    id = parseInt(id);
+    var subquery = knex('likes').where("user_id", id).select('resource_id');
+    knex
+      .select("*")
+      .from("resources")
+      .where("user_id", id)
+      .orWhere('id', 'in', subquery)
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
+  router.post('/:id/rank', (req, res) => {
+    //const current_user = req.session.user_id;
+    var id = req.params.id;
+    id = parseInt(id);
+    knex('rank').insert(
+      {
+        user_id: id,
+        resource_id: req.body.resource_id,
+        rank_value: req.body.rank_value
+      }).then((result) => {
+        res.json({ message: "Successful rank added", result });
+      });
+  });
+
+//   router.post('/login', (req,res) => {
+//     // console.log('i am inside posting');
+//     // console.log(req.body);  
+//     console.log(req.session);
+//     req.session.user_id = req.body.user_id;
+//     console.log('this is my cookie' + req.session.user_id);
+//     res.redirect('/'); // TODO: change this to root page later
+// }) --------->>>>>>> NEEDS TO BE DELETED IF USER TABLE IS NOT MADE
+
+router.get('/', (req, res) => {
+    knex
+        .select('*')
+        .from('resources')
+        .then((results) => {
+            res.json(results);
+        });
+});
+
+router.post('/:id/like', (req, res) => {
+    console.log('i am in id like');
+    const current_user = req.session.user_id;
+    knex('likes').insert(
+        {user_id : current_user, resource_id : req.params.resource_id});
+});
+
+router.delete('/:id/like'), (req, res) => {
+    const current_user = req.session.user_id;
+    knex('likes').where({user_id : current_user}).del();
+}
 
 
-
-
-
-
+  return router;
+};

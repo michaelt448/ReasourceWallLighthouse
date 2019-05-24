@@ -31,4 +31,4 @@ module.exports = (knex) => { //usertwo/
 const knex = knex connection;
 const userRoutes = require("users.js")(knex);
 const commentsRoutes = require("comments.js")(knex);
-app,use("/usertwo" , userRoutes)
+app,use("/usertwo", userRoutes)
