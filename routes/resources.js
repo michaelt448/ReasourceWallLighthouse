@@ -34,11 +34,12 @@ module.exports = (knex) => {
   });
 
   router.patch('/:id/rank/:rank_id', (req, res) => {
-    knex('rank').update({
-      rank_value: 4
+    knex('rank').update(
+      'rank_value', '4'
+    ).returning(['rank_value']).then((result) => {
+      res.json({ message: "Successful request to rank table", result });
     });
   });
-
 
   return router;
 };
