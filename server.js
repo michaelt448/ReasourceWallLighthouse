@@ -61,6 +61,12 @@ app.get("/", (req, res) => {
   res.render("homepage");
 });
 
+app.get("/favs", (req, res) => {
+  // console.log('rendering');
+  console.log(req.session)
+  res.render("favourites");
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
