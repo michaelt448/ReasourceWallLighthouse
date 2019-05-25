@@ -15,7 +15,7 @@ module.exports = (knex) => {
       description: 'Site for helping to pick colour schemes.',
       user_id: 3,
       category: 'Front-end',
-      url_img: 'https://www.google.com/search?q=bootstrap&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjppayhrrXiAhU1FzQIHUGUBSQQ_AUIDigB&biw=1163&bih=581#imgrc=4aFpbvERzh62wM:'
+      url_img: 'https://i.pinimg.com/564x/02/90/d1/0290d19147e3d1fb6d1932d1c46968b7.jpg'
     }).returning(['url','title','description','user_id','category','create_at','url_img']).then((result) => {
       res.json({ message: "Successful request to resource table", result });
     });
