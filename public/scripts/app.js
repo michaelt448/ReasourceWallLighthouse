@@ -35,7 +35,7 @@ $(document).ready(function(){
       renderComments(resource.comments);
       renderLikes(resource.likes);
       renderRank(resource.ranks);
-      //const property= renderResources(resource.resourceProperties);
+      renderResources(resource.resourceProperties[0]);
       // $('div')
       // .append(`<p> This is resource url : ${resource.url}</p>`)
       // .append(`<p> This is when resource created : ${resource.created_at}</p>`)
@@ -71,6 +71,15 @@ $(document).ready(function(){
       $('.rankBox').append($('<p>').text(avg_rank));
     }
 
+    const renderResources = (properties) => {
+      console.dir(properties); 
+      $('div.properties')
+      .append(`<p> This is resource url : ${properties.url}</p>`)
+      .append(`<p> This is when resource created : ${properties.create_at}</p>`)
+      .append(`<p> This is resource title : ${properties.title}</p>`)
+      .append(`<p> This is resource image : ${properties.url_img}</p>`)
+      .append(`<p> This is resource description : ${properties.description}</p>`)
+    }
     const renderUserSpecificPage = (resource) => {
       console.log('I am in the private mode' + resource);
     }

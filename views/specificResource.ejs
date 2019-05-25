@@ -14,11 +14,6 @@
 
   <body>
       <header>Hey how are you doing!!!!</header>
-    <form class='like' type ='POST' action='/resources:id/like'>
-        <button class = 'likeButton'>
-            <p>Like</p>
-        </button>
-    </form>
     <form type = 'POST' action='/login'>
       <p>
         Login:
@@ -28,6 +23,12 @@
         </button>
       </p>
     </form>
+    <div class = 'properties'></div>
+    <form class='like' type ='POST' action='/resources:id/like'>
+      <button class = 'likeButton'>
+          <p>Like</p>
+      </button>
+  </form>
     <form class='commentBox'type = 'POST' action='/resources:id/comment'>
       <textarea name="text" placeholder="Leave your thoughts below!!"></textarea>
       <input type="submit" value="Comment">
