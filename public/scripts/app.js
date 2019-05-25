@@ -1,6 +1,7 @@
 
 
 $(document).ready(function() {
+  $(".new-url").hide();
 
   const $grid = $(".grid").masonry({
     itemSelector: ".grid-item",
@@ -22,7 +23,7 @@ $(document).ready(function() {
     $grid.masonry( 'prepended', newDiv);
   }
 
-  $(".new-url").hide();
+  
 
   $(() => {
     $.ajax({
@@ -54,8 +55,10 @@ $(document).ready(function() {
       url: $(".url-area").val(),
       title: $(".title-area").val(),
       description: $(".descr-area").val(),
+      category: $(".cat-area").val(),
       url_img: $(".img-area").val()
     };
+    console.log(data.category)
     $.ajax({
       method: "POST",
       url: "api/resources",
@@ -64,7 +67,6 @@ $(document).ready(function() {
       const resourceInfo = response.result[0];
       console.log("resourceinfo", resourceInfo);
       createTile(resourceInfo);
-      // console.log("tilereutned!");
     });
   });
   
