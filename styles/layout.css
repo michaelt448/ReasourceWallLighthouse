@@ -1,4 +1,7 @@
 /* sass styles/layout.scss styles/layout.css */
+/* gulp (js automaticly converts all scss into the css files) */
+
+/*# sourceMappingURL=layout.css.map */
 
 body {
   background-color: #EEE;
@@ -7,4 +10,4 @@ body h1 {
   color: #244751;
 }
 
-/*# sourceMappingURL=layout.css.map */
+

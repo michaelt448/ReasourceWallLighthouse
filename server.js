@@ -49,10 +49,16 @@ app.use(express.static("public"));
 app.use("/api/resources",resourceRoutes(knex));
 
 // Home page
-app.get("/", (req, res) => {
+app.get("/specificResource", (req, res) => {
   // console.log('rendering');
   console.log(req.session)
   res.render("specificResource");
+});
+
+app.get("/", (req, res) => {
+  // console.log('rendering');
+  console.log(req.session)
+  res.render("homepage");
 });
 
 app.listen(PORT, () => {
