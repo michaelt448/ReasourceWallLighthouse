@@ -9,7 +9,6 @@ module.exports = (knex) => {
 
 
   router.post('/', (req, res) => {
-    console.log("req.body",req.body)
     knex('resources')
       .insert(req.body)
       .returning(['url','title','description','user_id','category','create_at','url_img'])
@@ -17,6 +16,7 @@ module.exports = (knex) => {
         res.json({ message: "Successful request to resource table", result });
       });
   });
+
 
 
   router.post('/:id/comment', (req, res) => {
@@ -37,36 +37,53 @@ module.exports = (knex) => {
     });
   });
 
-  router.get("/", (req, res) => {
+  router.get('/', (req, res) => {
     knex
-      .select("*")
-      .from("resources")
+      .select('*')
+      .from('resources')
       .then((results) => {
         res.json(results);
       });
   });
 
-  router.get("/:id", (req, res) => {
+  router.get('/search/:term', (req,res) => {
+    var searchTerm = req.params.term;
+    console.log("rohit ", searchTerm);
+    knex('resources').where(function() {
+      this.where('title', 'like', '%CSS%')
+    }).orWhere('description', 'like','%CSS%')
+      .orWhere('category', 'like', '%CSS%')
+      .select('*')
+      .then((results) => {
+        res.json(results);
+      });
+  });
+
+  // .where(function() {
+  //   this.where('id', 1).orWhere('id', '>', 10)
+  // }).orWhere({name: 'Tester'})
+
+  router.get('/:id', (req, res) => {
     var id = req.params.id;
     id = parseInt(id);
     knex
-      .select("*")
-      .from("resources")
-      .where("id", id)
+      .select('*')
+      .from('resources')
+      .where('id', id)
       // .where("id: 1")//, req.params.id)
       .then((results) => {
         res.json(results);
       });
   });
 
-  router.get("/:id/favourites", (req, res) => {
+  router.get('/:id/favourites', (req, res) => {
     var id = req.params.id;
     id = parseInt(id);
-    var subquery = knex('likes').where("user_id", id).select('resource_id');
+    var subquery = knex('likes').where('user_id', id).select('resource_id');
     knex
-      .select("*")
-      .from("resources")
-      .where("user_id", id)
+      .select('*')
+      .from('resources')
+      .where('user_id', id)
       .orWhere('id', 'in', subquery)
       .then((results) => {
         res.json(results);

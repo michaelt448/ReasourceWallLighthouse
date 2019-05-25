@@ -3,6 +3,9 @@
 $(document).ready(function() {
   $(".new-url").hide();
 
+  console.log(document.cookie.split("=")[1]);
+
+
   const $grid = $(".grid").masonry({
     itemSelector: ".grid-item",
     columnWidth: 200,
@@ -10,7 +13,6 @@ $(document).ready(function() {
   });
 
   function createTile(resource){
-    console.log('resource', resource);
     let newDiv = $("<div>");
     newDiv.addClass("eachResource grid-item");
     $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
@@ -18,7 +20,6 @@ $(document).ready(function() {
     $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
     const imgURL = resource.url_img;
     newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-    console.log('newDiv', newDiv);
     newDiv.prependTo($(".existing-resource"));
     $grid.masonry( 'prepended', newDiv);
   }
@@ -58,7 +59,6 @@ $(document).ready(function() {
       category: $(".cat-area").val(),
       url_img: $(".img-area").val()
     };
-    console.log(data.category)
     $.ajax({
       method: "POST",
       url: "api/resources",
@@ -69,16 +69,36 @@ $(document).ready(function() {
       createTile(resourceInfo);
     });
   });
-  
-  // $('.input').focus(function(){
-  //   $(this).parent().find(".label-txt").addClass('label-active');
-  // });
 
-  // $(".input").focusout(function(){
-  //   if ($(this).val() == '') {
-  //     $(this).parent().find(".label-txt").removeClass('label-active');
-  //   };
-  // });
+  const searchBar = $(".searchbar");
+  searchBar.on('click', function (event){
+    var data = "css";
+    $.ajax({
+      url: '/api/resources/search/'+ data,
+      method: 'GET',
+      dataType: 'json',
+      success: function(result){
+        console.log("we are good ",result);
+      }, 
+      error: function(err){
+        console.log("we are not good ",err);
+      }
+    });
+
+    //do it through the params
+
+  //  ` $ajax({
+  //     method: "GET",
+  //     url: "api/resources/search"
+  //   }).done((resources) => {
+  //     for(let resource of resources) {
+  //       createTile(resource);
+  //     }
+      
+  //   })`;
+  });
+
+
 
 
 });
