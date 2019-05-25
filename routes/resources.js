@@ -9,17 +9,13 @@ module.exports = (knex) => {
 
 
   router.post('/', (req, res) => {
-    knex('resources').insert({
-      url: 'https://colorhunt.co/',
-      title: 'Colour hunt',
-      description: 'Site for helping to pick colour schemes.',
-      user_id: 3,
-      category: 'Front-end',
-      url_img: 'https://www.google.com/search?q=bootstrap&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjppayhrrXiAhU1FzQIHUGUBSQQ_AUIDigB&biw=1163&bih=581#imgrc=4aFpbvERzh62wM:'
-    }).returning(['url','title','description','user_id','category','create_at','url_img']).then((result) => {
-      res.json({ message: "Successful request to resource table", result });
-    });
-
+    console.log("req.body",req.body)
+    knex('resources')
+      .insert(req.body)
+      .returning(['url','title','description','user_id','category','create_at','url_img'])
+      .then((result) => {
+        res.json({ message: "Successful request to resource table", result });
+      });
   });
 
 
@@ -40,8 +36,6 @@ module.exports = (knex) => {
       res.json({ message: "rank_value succesfully updated in rank table"});
     });
   });
-
-
 
   router.get("/", (req, res) => {
     knex
@@ -80,7 +74,6 @@ module.exports = (knex) => {
   });
 
   router.post('/:id/rank', (req, res) => {
-    //const current_user = req.session.user_id;
     var id = req.params.id;
     id = parseInt(id);
     knex('rank').insert(
@@ -106,7 +99,7 @@ module.exports = (knex) => {
   //   knex
   //     .select('*')
   //     .from('resources')
-  //     .then((results) => {
+  //     .then((results) => {s
   //       res.json(results);
   //     });
   // });
