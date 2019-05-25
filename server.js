@@ -61,6 +61,11 @@ app.get("/", (req, res) => {
   res.render("homepage");
 });
 
+app.get("/login", (req,res) => {
+  console.log("click")
+  res.render("login");
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
