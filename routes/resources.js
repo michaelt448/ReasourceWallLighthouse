@@ -55,16 +55,38 @@ module.exports = (knex) => {
   });
 
   router.get("/:id", (req, res) => {
-    var id = req.params.id;
+ 
+    let id = req.params.id;
     id = parseInt(id);
-    knex
+    console.log('id passed in is', id);
+    let commentPromise = knex('comments')//START OF COMMENT QUARY
+    .select('comment','created_at','user_id')
+    .where('resource_id',id); // END OF COMMENT GETTING QUARY
+
+    let likesPromise = knex('likes') // START OF LIKES QUARY
+    .count('id')
+    .where('resource_id',id); // END OF LIKES QUARY
+
+    let rankPromise = knex('rank') //START OF RANKS QUARY
+    .avg('rank_value')
+    .where('resource_id',id); //END OF RANKS QUARY
+
+    let resourcePromise = knex
       .select("*")
       .from("resources")
-      .where("id", id)
-      // .where("id: 1")//, req.params.id)
-      .then((results) => {
-        res.json(results);
-      });
+      .where("id", id);
+
+      Promise.all([commentPromise,likesPromise,rankPromise,resourcePromise]).then((promiseResults) => {
+        const [comments,likes,ranks,resourceProperties] = promiseResults;
+        res.json({
+          comments,
+          likes,
+          ranks,
+          resourceProperties
+        })
+      }).catch((err) => {
+        console.log(err);
+      })
   });
 
   router.get("/:id/favourites", (req, res) => {
@@ -95,14 +117,14 @@ module.exports = (knex) => {
       });
   });
 
-  router.post('/login', (req,res) => {
-    // console.log('i am inside posting');
-    // console.log(req.body);  
-    console.log(req.session);
-    req.session.user_id = req.body.user_id;
-    console.log('this is my cookie' + req.session.user_id);
-    res.redirect('/'); // TODO: change this to root page later
-})
+//   router.post('/login', (req,res) => {
+//     // console.log('i am inside posting');
+//     // console.log(req.body);  
+//     console.log(req.session);
+//     req.session.user_id = req.body.user_id;
+//     console.log('this is my cookie' + req.session.user_id);
+//     res.redirect('/'); // TODO: change this to root page later
+// })
 
 router.get('/', (req, res) => {
     knex
