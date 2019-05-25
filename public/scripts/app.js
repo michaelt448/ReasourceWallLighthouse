@@ -33,7 +33,7 @@ $(document).ready(function() {
       url: "api/resources"
     }).done((resources) => {
       for(let resource of resources) {
-        console.log("here");
+        console.log("here app.js");
         console.log("resource", resource);
         console.log(resource.url);
         let newDiv = $("<div>");
