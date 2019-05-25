@@ -10,7 +10,7 @@ $(document).ready(function(){
   //   });;
   // });
     const logInButton = $('button.login');
-    const likeButton = $('button.like');
+    const likeButton = $('button.likeButton');
     const user_id = $('input');
 
     const renderPage = () => {
@@ -32,9 +32,9 @@ $(document).ready(function(){
 
     const renderUserPublicPage = (resource) => {
       console.dir(resource);
-      const comments = renderComments(resource.comments);
-      //const likes = renderLikes(resource.likes);
-      //const ranks = renderRanks(resource.ranks);
+      renderComments(resource.comments);
+      renderLikes(resource.likes);
+      renderRank(resource.ranks);
       //const property= renderResources(resource.resourceProperties);
       // $('div')
       // .append(`<p> This is resource url : ${resource.url}</p>`)
@@ -53,13 +53,24 @@ $(document).ready(function(){
 
     const renderComment = (comment) => {
       const newArticle = $('<article>').addClass('comment');
-      console.dir(comment);
+ 
       const header = $('<p>').addClass('comment-header').text(comment.user_id);
       const parag = $('<p>').addClass('comment-text').text(comment.comment);
       const footer = $('<p>').addClass('comment-text').text(comment.created_at);
   
       return newArticle.append(header, parag, footer);
     }
+
+    const renderLikes = (like) => {
+      const count = like[0].count;
+      $('.like').append($('<p>').text(count));
+    }
+
+    const renderRank = (rank) => {
+      const avg_rank = parseInt(rank[0].avg);
+      $('.rankBox').append($('<p>').text(avg_rank));
+    }
+
     const renderUserSpecificPage = (resource) => {
       console.log('I am in the private mode' + resource);
     }
