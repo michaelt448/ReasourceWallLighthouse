@@ -2,6 +2,26 @@
 
 $(document).ready(function() {
 
+  const $grid = $(".grid").masonry({
+    itemSelector: ".grid-item",
+    columnWidth: 200,
+    gutter:15
+  });
+
+  function createTile(resource){
+    console.log('resource', resource);
+    let newDiv = $("<div>");
+    newDiv.addClass("eachResource grid-item");
+    $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
+    $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
+    $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
+    const imgURL = resource.url_img;
+    newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
+    console.log('newDiv', newDiv);
+    newDiv.prependTo($(".existing-resource"));
+    $grid.masonry( 'prepended', newDiv);
+  }
+
   $(".new-url").hide();
 
   $(() => {
@@ -10,44 +30,42 @@ $(document).ready(function() {
       url: "api/resources"
     }).done((resources) => {
       for(let resource of resources) {
-        let newDiv = $("<div>");
-        newDiv.addClass("eachResource grid-item");
-        $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
-        $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
-        $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-        newDiv.prependTo($(".existing-resource"));
-
-
-        const imgURL = resource.url_img;
-        newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-
+        createTile(resource);
       }
-      $(".grid").masonry({
-        itemSelector: ".grid-item",
-        columnWidth: 200,
-        gutter:15
-      });
+      
     });
   });
 
   const addButton = $("#nav-bar .add-button");
   addButton.on("click", function() {
-    const body = $(this)
-      .parent()
-      .parent();
-    const newResourceSection = $(body.find(".new-url")); 
+    const newResourceSection = $(".new-url"); 
     if (newResourceSection.is(":hidden")) {
       newResourceSection.slideDown();
-      $("url-area").focus();
+      $(".url-area").focus();
     } else {
       newResourceSection.slideUp();
     }
   });
 
   const submitButton = $(".add-resource");
-  submitButton.on("click", function() {
+  submitButton.on("click", function(event) {
     event.preventDefault();
-    console.log("Clicked");
+    const data = { 
+      url: $(".url-area").val(),
+      title: $(".title-area").val(),
+      description: $(".descr-area").val(),
+      url_img: $(".img-area").val()
+    };
+    $.ajax({
+      method: "POST",
+      url: "api/resources",
+      data: data
+    }).done((response) => {
+      const resourceInfo = response.result[0];
+      console.log("resourceinfo", resourceInfo);
+      createTile(resourceInfo);
+      // console.log("tilereutned!");
+    });
   });
   
   // $('.input').focus(function(){
