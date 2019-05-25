@@ -115,12 +115,15 @@ module.exports = (knex) => {
 
   router.post('/:id/rank', (req, res) => {
     //const current_user = req.session.user_id;
+    // console.log(req.body.user_id);
+    // console.log(req.params.id);
+    // console.log(req.body.rank_value);
     var id = req.params.id;
     id = parseInt(id);
     knex('rank').insert(
       {
-        user_id: id,
-        resource_id: req.body.resource_id,
+        user_id: req.body.user_id,
+        resource_id: req.params.id,
         rank_value: req.body.rank_value
       }).then((result) => {
         res.json({ message: "Successful rank added", result });
@@ -146,16 +149,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/:id/like', (req, res) => {
-    console.log('i am in id like');
-    const current_user = req.session.user_id;
     knex('likes').insert(
-        {user_id : current_user, resource_id : req.params.resource_id});
+        {user_id : req.body.user_id, resource_id : req.params.id})
+        .catch(err => console.log(err));
 });
 
-router.delete('/:id/like'), (req, res) => {
-    const current_user = req.session.user_id;
-    knex('likes').where({user_id : current_user}).del();
-}
+router.post('/:id/like/delete', (req, res) => {
+    console.log('inside the delete route');
+    knex('likes').where('user_id', req.body.user_id).del();
+});
 
 
   return router;

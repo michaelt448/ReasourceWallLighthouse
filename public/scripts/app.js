@@ -1,7 +1,10 @@
 $(document).ready(function(){
     const logInButton = $('button.login');
     const likeButton = $('button.likeButton');
+    const unLikeButton = $('button.unLikeButton')
     const user_id = $('input');
+    const rankButton = $('input.rankButton');
+    const rankValue = $('select option')
 
     const renderPage = () => {
       $('#anchor').empty();
@@ -56,7 +59,7 @@ $(document).ready(function(){
     const renderLikes = (like) => {
       $('.totalLike').empty();
       const count = like[0].count;
-      $('.totalLike').append($('<p>').text(count));
+      $('.totalLike').append($('<p>').text(`There are ${count} likes`));
     }
 
     const renderRank = (rank) => {
@@ -103,17 +106,28 @@ $(document).ready(function(){
   }
 
     const checkPersonalLike = (personalLikes) => {
+      console.log('got into checkpersonalLikes');
       $('personalLike').empty();
       if(personalLikes === undefined) {
          $('.personalLike').append('<p> NOT LIKED </p>');
+         $('form.like').show();
+         $('form.unlike').hide();
       }
       else {
-      for(personalLike in personalLikes) {
-        if(personalLike.user_id === Cookies.get('user_id')){
+        console.log('got in defined');
+      for(personalLike of personalLikes) {
+        console.log('got into the personalLikes for loop');
+        if(personalLike.user_id === parseInt(Cookies.get('user_id'))){
+          // console.log('the cookie matches');
            $('.personalLike').append('<p> LIKED </p>');
+           $('form.like').hide();
+           $('form.unlike').show();
+           return;
         }
       } 
        $('.personalLike').append('<p> NOT LIKED </p>');
+       $('form.like').show();
+       $('form.unlike').hide();
     }
   }
 
@@ -122,13 +136,28 @@ $(document).ready(function(){
       renderRank(resource.ranks)
       renderResources(resource.resourceProperties[0])
       renderComments(resource.comments)
+      $('form.like').hide();
+      $('form.unlike').hide();
+      $('form.rankBox').hide();
       
     }
 
     likeButton.on('click', function(e) {
       e.preventDefault();
-      $.post('/api/resources')
+      console.log('inside the like button');
+      $.post('/api/resources/'+ 3 + '/like',{user_id : Cookies.get('user_id')});
+      renderPage();
+      $('form.like').hide();
+      $('form.unlike').show();
     })
+
+    unLikeButton.on('click', function(e) {
+      e.preventDefault();
+      console.log('inside the unlike button');
+      $.post('/api/resources/'+ 3 +'/like/delete',{user_id : Cookies.get('user_id')})
+      // renderPage();
+      });
+    
 
     logInButton.on('click', function(e) {
       console.log('the text value is ' + user_id.val());
@@ -136,6 +165,14 @@ $(document).ready(function(){
       Cookies.set('user_id',user_id.val());
       renderPage();
     }) 
+
+    rankButton.on('click',function(e) {
+      e.preventDefault();
+      console.log('insde the rank button');
+      // console.log(rankValue.val());
+      $.post('/api/resources/'+ 3 + '/rank',{user_id : Cookies.get('user_id'),
+    rank_value : parseInt(rankValue.val())});
+    })
 
     renderPage()
     // $('#tweet-container').empty();

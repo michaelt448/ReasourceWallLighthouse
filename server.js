@@ -13,21 +13,22 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 
 // Seperated Routes for each Resource
 const resourceRoutes = require("./routes/resources");
+const methodOverride = require('method-override');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
-
-app.use(cookieSession({
-  name : 'session',
-  keys : ['key1'],
-  maxAge : 1000*60*60
-}));
+app.use(methodOverride('_method'));
+// app.use(cookieSession({
+//   name : 'session',
+//   keys : ['key1'],
+//   maxAge : 1000*60*60
+// }));
 
 
 // Log knex SQL queries to STDOUT as well

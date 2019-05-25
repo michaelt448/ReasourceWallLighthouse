@@ -14,7 +14,7 @@
 
   <body>
       <header>Hey how are you doing!!!!</header>
-      <p>
+      <p class='userLogin'>
         Login:
         <input name = username>
         <button class = 'login'>
@@ -23,24 +23,29 @@
       </p>
       <!-- <div id=anchor></div> -->
     <div class = 'properties'></div>
-    <form class='like' type ='POST' action='/resources:id/like'>
+    <form class='like' type ='POST'>
       <button class = 'likeButton'>
           <p>Like</p>
+      </button>
+    </form>
+    <form class='unlike' type ='POST'>
+      <button class = 'unLikeButton'>
+          <p>Unlike</p>
       </button>
     </form>
     <div class='totalLike'></div>
     <div class='personalLike'></div>
     <div class='personalRank'></div>
     <div class='comments'></div>
-    <form class='rankBox' type= 'POST' action='/resources:id/rank'>
+    <form class='rankBox' type= 'POST'>
       <select>
-        <option value="one">1</option>
-        <option value="two">2</option>
-        <option value="three">3</option>
-        <option value="four">4</option>
-        <option value="five">5</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
       </select>
-      <input type='submit'>
+      <input class = 'rankButton' type='submit'>
     </form>
     <div class='averageRank'></div>
   </body>
