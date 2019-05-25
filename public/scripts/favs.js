@@ -2,10 +2,12 @@
 
 $(document).ready(function () {
     console.log("here in favs.js");
+    let id = '1';
     $(() => {
         $.ajax({
             method: "GET",
-            url: "api/resources"
+            //url: "api/resources"
+            url: "api/resources/" + id + "/favorites"
         }).done((resources) => {
             var imgURL = "";
             for (let resource of resources) {

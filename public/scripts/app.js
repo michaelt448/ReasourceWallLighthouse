@@ -1,22 +1,21 @@
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
   $(".new-url").hide();
   // $(".no-text").hide();
   // $(".too-long").hide();
 
- 
 
   const addButton = $("#nav-bar .add-button");
-  addButton.on("click", function() {
+  addButton.on("click", function () {
     console.log("Clicked!");
     // const newResource = ($(".new-url"));
     const body = $(this)
       .parent()
       .parent();
     const newResourceSection = $(body.find(".new-url")); //can target this directly as always start at body automaticly
-//$(this)closest('elemente.g. 'ul') best to use closest!!
+    //$(this)closest('elemente.g. 'ul') best to use closest!!
     if (newResourceSection.is(":hidden")) {
       console.log(newResourceSection[0]);
       newResourceSection.slideDown();
@@ -32,7 +31,7 @@ $(document).ready(function() {
       method: "GET",
       url: "api/resources"
     }).done((resources) => {
-      for(let resource of resources) {
+      for (let resource of resources) {
         console.log("here app.js");
         console.log("resource", resource);
         console.log(resource.url);
@@ -42,9 +41,9 @@ $(document).ready(function() {
         $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
         $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
         newDiv.appendTo($(".existing-resource"));
-        
+
         // $("<div>").text(resource.url).appendTo($(".existing-resource"));
-      }for(let resource of resources) {
+      } for (let resource of resources) {
         console.log("here");
         console.log("resource", resource);
         console.log(resource.url);
@@ -54,9 +53,9 @@ $(document).ready(function() {
         $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
         $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
         newDiv.appendTo($(".existing-resource"));
-        
+
         // $("<div>").text(resource.url).appendTo($(".existing-resource"));
-      }for(let resource of resources) {
+      } for (let resource of resources) {
         console.log("here");
         console.log("resource", resource);
         console.log(resource.url);
@@ -81,10 +80,10 @@ $(document).ready(function() {
     });
   });
 
-      //   <div class="title"> My Javascript Tips </div>
-      //  <div class="description"> desc: top 10 info on javascript shortcuts </div>
-      //  <div class="category"> back-end </div>
-      //  <span>likes</span>
-      //  <span>rating</span>
+  //   <div class="title"> My Javascript Tips </div>
+  //  <div class="description"> desc: top 10 info on javascript shortcuts </div>
+  //  <div class="category"> back-end </div>
+  //  <span>likes</span>
+  //  <span>rating</span>
 
 });
