@@ -58,12 +58,13 @@ $(document).ready(function() {
       category: $(".cat-area").val(),
       url_img: $(".img-area").val()
     };
-    console.log(data.category)
+    console.log('Category: ' + data.category)
     $.ajax({
       method: "POST",
       url: "api/resources",
       data: data
     }).done((response) => {
+      console.log(response);
       const resourceInfo = response.result[0];
       console.log("resourceinfo", resourceInfo);
       createTile(resourceInfo);

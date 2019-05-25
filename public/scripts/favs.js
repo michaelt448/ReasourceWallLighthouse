@@ -1,67 +1,42 @@
-
-
 $(document).ready(function () {
     console.log("here in favs.js");
-    let id = '1';
-    $(() => {
+
+
+    const $grid = $(".grid").masonry({
+        itemSelector: ".grid-item",
+        columnWidth: 200,
+        gutter:15
+      });
+    
+      function createTile(resource){
+        console.log('resource', resource);
+        let newDiv = $("<div>");
+        newDiv.addClass("eachResource grid-item");
+        $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
+        $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
+        $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
+        const imgURL = resource.url_img;
+        newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
+        console.log('newDiv', newDiv);
+        newDiv.prependTo($(".existing-resource"));
+        $grid.masonry( 'prepended', newDiv);
+      }
+      
+      // let id = Cookie.get('user_id');
+      let id  = document.cookie.split('=')[1];
+      console.log('TEsting for cookie:  ' + id);
+      // logged in user ???
+      let id = '1';
+      $(() => {
         $.ajax({
-            method: "GET",
-            //url: "api/resources"
-            url: "api/resources/" + id + "/favorites"
+          method: "GET",
+          //url: "api/resources"
+          url: "api/resources/" + id + "/favorites"
         }).done((resources) => {
-            var imgURL = "";
-            for (let resource of resources) {
-                // console.log("here in favs.js");
-                // console.log("resource", resource);
-                console.log(resource.url);
-                let newDiv = $("<div>");
-                newDiv.addClass("eachResource grid-item");
-                $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
-                $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
-                $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-                newDiv.appendTo($(".existing-resource"));
-                imgURL = resource.url_img;
-                console.log(imgURL)
-                newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-                // $("<div>").text(resource.url).appendTo($(".existing-resource"));
-            }
-
-            for (let resource of resources) {
-                // console.log("here");
-                // console.log("resource", resource);
-                // console.log(resource.url);
-                let newDiv = $("<div>");
-                newDiv.addClass("eachResource grid-item");
-                $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
-                $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
-                $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-                newDiv.appendTo($(".existing-resource"));
-                imgURL = resource.url_img;
-                console.log(imgURL)
-                newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-                // $("<div>").text(resource.url).appendTo($(".existing-resource"));
-            }
-
-            for (let resource of resources) {
-                // console.log("here");
-                // console.log("resource", resource);
-                // console.log(resource.url);
-                let newDiv = $("<div>");
-                newDiv.addClass("eachResource grid-item");
-                $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
-                $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
-                $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-                newDiv.prependTo($(".existing-resource"));
-
-
-                imgURL = resource.url_img;
-                console.log(imgURL)
-                newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-            }
-            $(".grid").masonry({
-                itemSelector: ".grid-item",
-                columnWidth: 200
-            });
+          for(let resource of resources) {
+            createTile(resource);
+          }
+          
         });
-    });
+      });
 });

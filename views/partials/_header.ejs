@@ -14,15 +14,6 @@
   <body>
 <h1>TinyApp</h1>
 
-<% if (locals.user) { %> <!-- getting this from object we created and past in use as KEy -->
-
-  <p> Logged in as: <%=user.email%> </p>
-  <form method="POST" action=<%=`/logout`%>>
-    <button class="btn btn-primary"> logout </button>
-  </form>
-  <br/>
-
-<% } else { %>
 
   <p>
     <a href="/login">Login</a>
@@ -31,6 +22,5 @@
   </p>
 
 
-<% } %>
 </body>
 </html>
