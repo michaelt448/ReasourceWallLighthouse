@@ -10,9 +10,6 @@ $(document).ready(function() {
       url: "api/resources"
     }).done((resources) => {
       for(let resource of resources) {
-        console.log("here");
-        console.log("resource", resource);
-        console.log(resource.url);
         let newDiv = $("<div>");
         newDiv.addClass("eachResource grid-item");
         $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
@@ -22,7 +19,6 @@ $(document).ready(function() {
 
 
         const imgURL = resource.url_img;
-        console.log(imgURL)
         newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
 
       }
@@ -36,13 +32,11 @@ $(document).ready(function() {
 
   const addButton = $("#nav-bar .add-button");
   addButton.on("click", function() {
-    console.log("Clicked!");
     const body = $(this)
       .parent()
       .parent();
     const newResourceSection = $(body.find(".new-url")); 
     if (newResourceSection.is(":hidden")) {
-      console.log(newResourceSection[0]);
       newResourceSection.slideDown();
       $("url-area").focus();
     } else {
@@ -50,16 +44,21 @@ $(document).ready(function() {
     }
   });
 
-
-  $('.input').focus(function(){
-    $(this).parent().find(".label-txt").addClass('label-active');
+  const submitButton = $(".add-resource");
+  submitButton.on("click", function() {
+    event.preventDefault();
+    console.log("Clicked");
   });
+  
+  // $('.input').focus(function(){
+  //   $(this).parent().find(".label-txt").addClass('label-active');
+  // });
 
-  $(".input").focusout(function(){
-    if ($(this).val() == '') {
-      $(this).parent().find(".label-txt").removeClass('label-active');
-    };
-  });
+  // $(".input").focusout(function(){
+  //   if ($(this).val() == '') {
+  //     $(this).parent().find(".label-txt").removeClass('label-active');
+  //   };
+  // });
 
 
 });
