@@ -15,14 +15,13 @@ $(document).ready(function(){
 
     const renderPage = () => {
       console.log('I am in render page');
-      $.get('/api/resources/'+ 2) //---->>> 2 is resource id, hardcoded
+      $.get('/api/resources/'+ 1) //---->>> 2 is resource id, hardcoded
       // .then(response =>
       //   response.json()
       // )
       .then((object) => {
-        console.log(object);
         if(Cookies.get('user_id') === undefined) {
-          renderUserPublicPage(object[0]);
+          renderUserPublicPage(object);
           console.log('i am public');
         } else {
           // renderUserSpecificPage(object[0]);
@@ -34,9 +33,9 @@ $(document).ready(function(){
     const renderUserPublicPage = (resource) => {
       console.dir(resource);
       const comments = renderComments(resource.comments);
-      const likes = renderLikes(resource.likes);
-      const ranks = renderRanks(resource.ranks);
-      const property= renderResources(resource.resourceProperties);
+      //const likes = renderLikes(resource.likes);
+      //const ranks = renderRanks(resource.ranks);
+      //const property= renderResources(resource.resourceProperties);
       // $('div')
       // .append(`<p> This is resource url : ${resource.url}</p>`)
       // .append(`<p> This is when resource created : ${resource.created_at}</p>`)
@@ -45,15 +44,17 @@ $(document).ready(function(){
       // .append(`<p> This is resource description : ${resource.description}</p>`)
     }
     const renderComments = (comments) => {
-      for(comment in comments) {
+      console.log('inside the render comments I', comments);
+      for(comment of comments) {
+        console.log(comment);
         $('.comments').append(renderComment(comment));
       }
     }
 
     const renderComment = (comment) => {
       const newArticle = $('<article>').addClass('comment');
-
-      const header = $('<header>').addClass('comment-header').text(comment.user_id);
+      console.dir(comment);
+      const header = $('<p>').addClass('comment-header').text(comment.user_id);
       const parag = $('<p>').addClass('comment-text').text(comment.comment);
       const footer = $('<p>').addClass('comment-text').text(comment.created_at);
   
@@ -81,4 +82,16 @@ $(document).ready(function(){
     renderPage()
     // checkCookie();
     //Cookies.set()
+    // renderComments([
+    //   {
+    //     user_id : 2,
+    //     comment: 'awesome',
+    //     created_at: '2 min ago'
+    //   },
+    //   {
+    //     user_id: 2,
+    //     comment: 'the bestest alive',
+    //     created_at: '10 min ago'
+    //   }
+    // ])
 })

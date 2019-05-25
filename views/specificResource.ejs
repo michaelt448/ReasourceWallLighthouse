@@ -5,7 +5,7 @@
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/specificResource.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -28,8 +28,10 @@
         </button>
       </p>
     </form>
-    <div class='hook'>
-
-    </div>
+    <form class='commentBox'type = 'POST' action='/resources:id/comment'>
+      <textarea name="text" placeholder="Leave your thoughts below!!"></textarea>
+      <input type="submit" value="Comment">
+    </form>
+    <div class='comments'></div>
   </body>
 </html>
