@@ -67,6 +67,14 @@ module.exports = (knex) => {
     .count('id')
     .where('resource_id',id); // END OF LIKES QUARY
 
+    let personalLikePromise = knex('likes')
+    .select('user_id')
+    .where('resource_id',id);
+
+    let personalRankPromise = knex('rank')
+    .select('user_id','rank_value')
+    .where('resource_id',id);
+
     let rankPromise = knex('rank') //START OF RANKS QUARY
     .avg('rank_value')
     .where('resource_id',id); //END OF RANKS QUARY
@@ -76,13 +84,15 @@ module.exports = (knex) => {
       .from("resources")
       .where("id", id);
 
-      Promise.all([commentPromise,likesPromise,rankPromise,resourcePromise]).then((promiseResults) => {
-        const [comments,likes,ranks,resourceProperties] = promiseResults;
+      Promise.all([commentPromise,likesPromise,rankPromise,resourcePromise,personalLikePromise,personalRankPromise]).then((promiseResults) => {
+        const [comments,likes,ranks,resourceProperties,personalLike,personalRank] = promiseResults;
         res.json({
           comments,
           likes,
           ranks,
-          resourceProperties
+          resourceProperties,
+          personalLike,
+          personalRank
         })
       }).catch((err) => {
         console.log(err);

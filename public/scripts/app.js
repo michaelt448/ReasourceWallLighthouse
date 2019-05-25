@@ -1,54 +1,43 @@
 $(document).ready(function(){
-  // $(() => {
-  //   $.ajax({
-  //     method: "GET",
-  //     url: "/api/users"
-  //   }).done((users) => {
-  //     for(user of users) {
-  //       $("<div>").text(user.name).appendTo($("body"));
-  //     }
-  //   });;
-  // });
     const logInButton = $('button.login');
     const likeButton = $('button.likeButton');
     const user_id = $('input');
 
     const renderPage = () => {
       console.log('I am in render page');
-      $.get('/api/resources/'+ 1) //---->>> 2 is resource id, hardcoded
-      // .then(response =>
-      //   response.json()
-      // )
+      $.get('/api/resources/'+ 3) //---->>> 2 is resource id, hardcoded
       .then((object) => {
+        console.log(object);
         if(Cookies.get('user_id') === undefined) {
           renderUserPublicPage(object);
           console.log('i am public');
         } else {
-          // renderUserSpecificPage(object[0]);
+          renderUserSpecificPage(object);
           console.log('i am private');
         }
       }) 
     }
 
-    const renderUserPublicPage = (resource) => {
+    const renderUserSpecificPage = (resource) => {
       console.dir(resource);
-      renderComments(resource.comments);
+      renderComments(resource.comments); 
       renderLikes(resource.likes);
       renderRank(resource.ranks);
       renderResources(resource.resourceProperties[0]);
-      // $('div')
-      // .append(`<p> This is resource url : ${resource.url}</p>`)
-      // .append(`<p> This is when resource created : ${resource.created_at}</p>`)
-      // .append(`<p> This is resource title : ${resource.title}</p>`)
-      // .append(`<p> This is resource image : ${resource.url_img}</p>`)
-      // .append(`<p> This is resource description : ${resource.description}</p>`)
+      checkPersonalLike(resource.personalLike);
+      checkPersonalRank(resource.renderPersonalRank);
+      renderCommentBox();
     }
     const renderComments = (comments) => {
-      console.log('inside the render comments I', comments);
       for(comment of comments) {
-        console.log(comment);
+        // console.log(comment);
         $('.comments').append(renderComment(comment));
       }
+    }
+
+    const renderCommentBox = () => {
+      // very dirty code, this is to make the text box appear dynamically
+      $('.comments').append("<form class='commentBox'type = 'POST' action='/resources:id/comment'><textarea name='text' placeholder='Leave your thoughts below!!'></textarea><input type='submit' value='Comment'></form>")
     }
 
     const renderComment = (comment) => {
@@ -80,8 +69,39 @@ $(document).ready(function(){
       .append(`<p> This is resource image : ${properties.url_img}</p>`)
       .append(`<p> This is resource description : ${properties.description}</p>`)
     }
-    const renderUserSpecificPage = (resource) => {
-      console.log('I am in the private mode' + resource);
+
+    const checkPersonalRank = (personRanks) => {
+      if(personRanks === undefined) {
+        return;
+      } 
+      for(personalRank in personalRanks) {
+        if(personalRank.user_id === Cookies.get('user_id')){
+          $('.personalRank').append(`<p>${personalRank.rank_value}</p>`);
+          return;
+        }
+      }
+      console.log(personRanks)
+    }
+
+    const checkPersonalLike = (personLikes) => {
+      if(personalLikes === undefined) {
+        return;
+      }
+      for(personalLike in personalLikes) {
+        if(personalLike.user_id === Cookies.get('user_id')){
+          $('.personalLike').append('<p> LIKED </p>');
+          return;
+        }
+      } 
+      $('.personalLike').append('<p> NOT LIKED </p>');
+      console.log(personLikes);
+    }
+
+    const renderUserPublicPage = (resource) => {
+      renderLikes(resource.likes);
+      renderRank(resource.ranks);
+      renderResources(resource.resourceProperties[0]);
+      renderComments(resource.comments); 
     }
 
     likeButton.on('click', function(e) {

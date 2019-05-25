@@ -14,7 +14,6 @@
 
   <body>
       <header>Hey how are you doing!!!!</header>
-    <form type = 'POST' action='/login'>
       <p>
         Login:
         <input name = username>
@@ -22,17 +21,15 @@
           Login
         </button>
       </p>
-    </form>
     <div class = 'properties'></div>
     <form class='like' type ='POST' action='/resources:id/like'>
       <button class = 'likeButton'>
           <p>Like</p>
       </button>
-  </form>
-    <form class='commentBox'type = 'POST' action='/resources:id/comment'>
-      <textarea name="text" placeholder="Leave your thoughts below!!"></textarea>
-      <input type="submit" value="Comment">
     </form>
+    <div class='personalLike'></div>
+    <div class='personalRank'></div>
+    <div class='comments'></div>
     <form class='rankBox' type= 'POST' action='/resources:id/rank'>
       <select>
         <option value="one">1</option>
@@ -43,6 +40,5 @@
       </select>
       <input type='submit'>
     </form>
-    <div class='comments'></div>
   </body>
 </html>
