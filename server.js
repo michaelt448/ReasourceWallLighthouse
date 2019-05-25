@@ -64,7 +64,7 @@ app.get("/", (req, res) => {
 app.get("/favs", (req, res) => {
   // console.log('rendering');
   console.log(req.session)
-  res.render("favourites");
+  res.render("favorites");
 });
 
 app.listen(PORT, () => {
