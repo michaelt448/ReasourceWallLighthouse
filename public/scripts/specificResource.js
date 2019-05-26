@@ -24,14 +24,14 @@ $(document).ready(function(){
 
     const renderUserSpecificPage = (resource) => {
       console.dir(resource);
-      renderComments(resource.comments) 
-      renderLikes(resource.likes)
-      renderRank(resource.ranks)
-      renderResources(resource.resourceProperties[0])
-      checkPersonalLike(resource.personalLike)
-      checkPersonalRank(resource.renderPersonalRank)
-      renderCommentBox()
-      
+      renderComments(resource.comments); 
+      renderLikes(resource.likes);
+      renderRank(resource.ranks);
+      renderResources(resource.resourceProperties[0]);
+      checkPersonalLike(resource.personalLike);
+      checkPersonalRank(resource.personalRank);
+      renderCommentBox();
+      $('.rankBox').show();
       
     }
     const renderComments = (comments) => {
@@ -69,7 +69,8 @@ $(document).ready(function(){
          $('.averageRank').append($('<p>').text('No rank'));
       }
       else {
-      const avg_rank = parseInt(rank[0].avg);
+      const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
+      // const avg_rank = parseInt(rank[0].avg);
        $('.averageRank').append($('<p>').text(avg_rank));
       }
     }
@@ -85,19 +86,22 @@ $(document).ready(function(){
       .append(`<p> This is resource image : ${properties.url_img}</p>`)
       .append(`<p> This is resource description : ${properties.description}</p>`)
       .addClass('properties');
-       
+
     }
 
     const checkPersonalRank = (personalRanks) => {
-      console.log(personalRanks)
+      console.log('I am inside the personalRanks');
+      console.log(personalRanks);
       $('.personalRank').empty();
       if(personalRanks === undefined) {
          $('.personalRank').append(`<p> NO PERSONAL RANK</p>`);
       } 
       else {
-      for(personalRank in personalRanks) {
-        if(personalRank.user_id === Cookies.get('user_id')){
-           $('.personalRank').append(`<p>${personalRank.rank_value}</p>`);
+      for(personalRank of personalRanks) {
+        console.log('inside the personal Rank',personalRank);
+        console.log('the cookie to compare', Cookies.get('user_id'));
+        if(personalRank.user_id === parseInt(Cookies.get('user_id'))){
+           $('.personalRank').append(`<p>${parseInt(personalRank.rank_value)}</p>`);
            return;
         }
       }
@@ -171,7 +175,8 @@ $(document).ready(function(){
       console.log('insde the rank button');
       // console.log(rankValue.val());
       $.post('/api/resources/'+ 3 + '/rank',{user_id : Cookies.get('user_id'),
-    rank_value : parseInt(rankValue.val())});
+      rank_value : parseInt(rankValue.val())});
+      renderPage();
     })
 
     renderPage()

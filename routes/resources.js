@@ -126,7 +126,7 @@ module.exports = (knex) => {
         resource_id: req.params.id,
         rank_value: req.body.rank_value
       }).then((result) => {
-        res.json({ message: "Successful rank added", result });
+        res.json( result );
       });
   });
 
