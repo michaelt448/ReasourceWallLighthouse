@@ -29,7 +29,8 @@ $(document).ready(function() {
   $(() => {
     $.ajax({
       method: "GET",
-      url: "api/resources"
+      url: "api/resources/",
+      //data: {user:document.cookie}
     }).done((resources) => {
       for(let resource of resources) {
         createTile(resource);
@@ -37,6 +38,19 @@ $(document).ready(function() {
       
     });
   });
+
+  // $(() => {
+  //   $.ajax({
+  //     method: "GET",
+  //     url: `/wall/${document.cookie.split("=")[1]}`,
+  //     //data: {user:document.cookie}
+  //   }).done((resources) => {
+  //     for(let resource of resources) {
+  //       createTile(resource);
+  //     }
+      
+  //   });
+  // });
 
   const addButton = $("#nav-bar .add-button");
   addButton.on("click", function() {

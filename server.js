@@ -44,7 +44,7 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-// app.use("/api/users", usersRoutes(knex));
+ //app.use("/api/users", usersRoutes(knex));
 
 app.use("/api/resources", resourceRoutes(knex));
 
@@ -58,12 +58,25 @@ app.get("/specificResource", (req, res) => {
 app.get("/", (req, res) => {
   // console.log('rendering');
   //console.log(req.session);
+  //console.log(req.body.user)
   let templateVars = {
-    userID: document.cookie
+    userID: req.body.user
+    //userID: document.cookie
   };
   // console.log("HAZ", req.session.user_id );
   res.render("homepage", templateVars);
 });
+
+// app.get("/wall/:id", (req, res) => {
+//   // console.log('rendering');
+//   //console.log(req.session);
+//   console.log(req.params.id)
+//   let templateVars = {
+//     userID: req.params.id
+//   };
+//   // console.log("HAZ", req.session.user_id );
+//   res.render("homepage", templateVars);
+// });
 
 //if sending cookie server side then use the template format
 
@@ -71,21 +84,24 @@ app.get("/favs", (req, res) => {
   // console.log('rendering');
   //console.log(req.session)
   let templateVars = {
-    userID: req.session.user_id
+    userID: req.body.data
   };
   res.render("favorites", templateVars);
 });
 
 app.get("/login", (req, res) => {
   console.log("click")
-  res.render("login");
+  let templateVars = {
+    userID: req.body.data
+  };
+  res.render("login", templateVars);
 });
 
-app.post("/login", (req, res) => {
-  console.log("login", req.body);
-  req.session.user_id = req.body.userID;
-  res.redirect("/");
-});
+// app.post("/login", (req, res) => {
+//   console.log("login", req.body);
+//   req.session.user_id = req.body.userID;
+//   res.redirect("/");
+// });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

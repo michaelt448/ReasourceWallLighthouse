@@ -46,6 +46,15 @@ module.exports = (knex) => {
       });
   });
 
+  // router.get('/wall/:id', (req, res) => {
+  //   knex
+  //     .select('*')
+  //     .from('resources')
+  //     .then((results) => {
+  //       res.json(results);
+  //     });
+  // });
+
   router.get('/search/:term', (req,res) => {
     var searchTerm = req.params.term;
     console.log("rohit ", searchTerm);
