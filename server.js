@@ -13,7 +13,6 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-// const cookieSession = require('cookie-session');
 
 // Seperated Routes for each Resource
 const resourceRoutes = require("./routes/resources");
@@ -48,11 +47,6 @@ app.use(express.static("public"));
 app.use("/api/resources", resourceRoutes(knex));
 
 // Home page
-app.get("/:id", (req, res) => {
-  // console.log('rendering');
-  // console.log(req.session)
-  res.render("specificResource");
-});
 
 app.get("/", (req, res) => {
   // console.log('rendering');
@@ -94,6 +88,13 @@ app.get("/login", (req, res) => {
     userID: req.body.data
   };
   res.render("login", templateVars);
+});
+
+
+app.get("/:id", (req, res) => {
+  // console.log('rendering');
+  // console.log(req.session)
+  res.render("specificResource");
 });
 
 //   res.redirect("/");
