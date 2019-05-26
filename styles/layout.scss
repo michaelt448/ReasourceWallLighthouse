@@ -87,24 +87,23 @@ body {
   }
 
   .search_input{
+  padding: 0 10px;
   color: white;
   border: 0;
   outline: 0;
   background: none;
-  width: 0;
-  caret-color:transparent;
-  line-height: 40px;
-  //transition: width 0.4s linear;
-  }
-
-  .searchbar:hover > .search_input{
-  padding: 0 10px;
-  margin-bottom:20em;
   width: 450px;
+  margin-bottom:20em;
+  line-height: 40px;
   caret-color:red;
-  //transition: width 0.4s linear;
   }
 
+  .no-entry {
+    color: #d1364d;
+    display: flex;
+    justify-content: center;
+  }
+  
   .searchbar:hover > .search_icon{
   background: white;
   color: #e74c3c;

@@ -2,8 +2,8 @@
 
 $(document).ready(function() {
   $(".new-url").hide();
-
-  console.log(document.cookie);
+  $(".no-entry").hide()
+  //console.log(document.cookie);
 
 
   const $grid = $(".grid").masonry({
@@ -42,10 +42,10 @@ $(document).ready(function() {
   addButton.on("click", function() {
     const newResourceSection = $(".new-url"); 
     if (newResourceSection.is(":hidden")) {
-      newResourceSection.slideDown();
+      newResourceSection.slideDown("slow");
       $(".url-area").focus();
     } else {
-      newResourceSection.slideUp();
+      newResourceSection.slideUp("slow");
     }
   });
 
@@ -74,28 +74,30 @@ $(document).ready(function() {
   const searchBar = $(".searchbar a");
   searchBar.on('click', function (event){
     var data = $(".search_input").val();
-    console.log(data);
-    $.ajax({
-      url: '/api/resources/search/'+ data,
-      method: 'GET',
-      dataType: 'json',
-      success: function(result){
-        console.log("we are good ",result);
-      }, 
-      error: function(err){
-        console.log("we are not good ",err);
-      }
-    }).done((resources) => {
-      // if (data === Nan) {
+    if (data === "") {
+      console.log("insideif")
+      $(".no-entry").slideDown("slow");
+    } else {
+      $(".no-entry").hide()
+      $.ajax({
+        url: '/api/resources/search/'+ data,
+        method: 'GET',
+        dataType: 'json',
+        success: function(result){
+          console.log("we are good ",result);
+        }, 
+        error: function(err){
+          console.log("we are not good ",err);
+        }
+      }).done((resources) => {
 
-      // } else {
         console.log("are you geting here?");
         $(".grid").html("");
         for(let resource of resources) {
           createTile(resource);
-        // }  
-      }
-    });
+        }  
+      });
+    }
 
   });   
 
