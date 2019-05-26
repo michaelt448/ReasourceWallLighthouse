@@ -23,15 +23,16 @@ $(document).ready(function () {
       }
       
       // let id = Cookie.get('user_id');
-      let id  = document.cookie.split('=')[1];
-      console.log('TEsting for cookie:  ' + id);
+      let idtest  = document.cookie.split('=')[1];
+      console.log('Favs cookie:  ' + idtest);
       // logged in user ???
       let id = '1';
       $(() => {
         $.ajax({
           method: "GET",
           //url: "api/resources"
-          url: "api/resources/" + id + "/favorites"
+          //url: "api/resources/" + id + "/favorites"
+          url: "api/resources/" + idtest + "/favorites"
         }).done((resources) => {
           for(let resource of resources) {
             createTile(resource);

@@ -65,6 +65,7 @@ app.get("/favs", (req, res) => {
   // console.log('rendering');
   console.log(req.session)
   res.render("favorites");
+});
   
 app.get("/login", (req,res) => {
   console.log("click")
