@@ -23,8 +23,14 @@ $(document).ready(function () {
       }
       
       // let id = Cookie.get('user_id');
-      let idtest  = document.cookie.split('=')[1];
-      console.log('Favs cookie:  ' + idtest);
+
+      let idtest_1  = document.cookie.split('=')[1];
+      console.log('Favs cookie:  ' + idtest_1);
+
+
+      let idtest  = userID;
+      console.log('FAVs cookie:  ' + idtest);
+
       // logged in user ???
       let id = '1';
       $(() => {
