@@ -65,7 +65,15 @@ app.get("/", (req, res) => {
   res.render("homepage", templateVars);
 });
 
-app.get("/login", (_req,res) => {
+
+app.get("/favs", (req, res) => {
+  // console.log('rendering');
+  console.log(req.session)
+  res.render("favorites");
+});
+  
+app.get("/login", (req,res) => {
+  console.log("click")
   res.render("login");
 });
 

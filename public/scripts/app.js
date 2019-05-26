@@ -52,18 +52,27 @@ $(document).ready(function() {
   const submitButton = $(".add-resource");
   submitButton.on("click", function(event) {
     event.preventDefault();
+
+    let idtest  = document.cookie.split('=')[1];
+    //console.log('Add user_id:  ' + idtest);
+
     const data = { 
       url: $(".url-area").val(),
       title: $(".title-area").val(),
       description: $(".descr-area").val(),
+      /**test */
+      user_id: idtest,
+      /**test */
       category: $(".cat-area").val(),
       url_img: $(".img-area").val()
     };
+    //console.log('User_id: ' + data.user_id)
     $.ajax({
       method: "POST",
       url: "api/resources",
       data: data
     }).done((response) => {
+      console.log(response);
       const resourceInfo = response.result[0];
       console.log("resourceinfo", resourceInfo);
       createTile(resourceInfo);

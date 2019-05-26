@@ -76,7 +76,7 @@ module.exports = (knex) => {
       });
   });
 
-  router.get('/:id/favourites', (req, res) => {
+  router.get("/:id/favorites", (req, res) => {
     var id = req.params.id;
     id = parseInt(id);
     var subquery = knex('likes').where('user_id', id).select('resource_id');
