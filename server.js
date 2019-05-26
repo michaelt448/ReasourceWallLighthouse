@@ -48,9 +48,9 @@ app.use(express.static("public"));
 app.use("/api/resources", resourceRoutes(knex));
 
 // Home page
-app.get("/2", (req, res) => {
+app.get("/:id", (req, res) => {
   // console.log('rendering');
-  console.log(req.session)
+  // console.log(req.session)
   res.render("specificResource");
 });
 
