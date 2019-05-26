@@ -23,17 +23,23 @@ $(document).ready(function () {
       }
       
       // let id = Cookie.get('user_id');
+
       let idtest  = document.cookie.split('=')[1];
       console.log('Favs cookie:  ' + idtest);
+
+
+      // let idtest  = userID;
+      // console.log('FAVs cookie:  ' + idtest);
+
       // logged in user ???
       let id = '1';
       $(() => {
         $.ajax({
           method: "GET",
           //url: "api/resources"
-          // url: "api/resources/" + id + "/favorites"
-          url: "api/resources/" + idtest + "/favorites".slice,
-          data: {user_id : Cookies.get('user_id')}
+          //url: "api/resources/" + id + "/favorites"
+          url: "api/resources/" + idtest + "/favorites",
+          data: document.cookie
         }).done((resources) => {
           for(let resource of resources) {
             createTile(resource);
