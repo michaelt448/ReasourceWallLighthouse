@@ -188,6 +188,7 @@ $(document).ready(function(){
       console.log('inside the comment');
       console.log('the comment is ', newComment);
       $.post('/api/resources/'+3+'/comment', {user_id :Cookies.get('user_id'), comment : newComment})
+      renderPage();
     })
     renderPage()
     // $('#tweet-container').empty();
