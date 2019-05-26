@@ -20,8 +20,10 @@ $(document).ready(function() {
     $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
     const imgURL = resource.url_img;
     newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
-    newDiv.prependTo($(".existing-resource"));
-    $grid.masonry( 'prepended', newDiv);
+    let newLink = $("<a>").attr("href",`/${resource.id}`)
+    newDiv.appendTo(newLink);
+    newLink.prependTo($(".existing-resource"));
+    $grid.masonry( 'prepended', newLink);
   }
 
   

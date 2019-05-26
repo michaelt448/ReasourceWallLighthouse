@@ -13,6 +13,7 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+//const cookieSession = require('cookie-session');
 
 // Seperated Routes for each Resource
 const resourceRoutes = require("./routes/resources");
@@ -21,6 +22,7 @@ const resourceRoutes = require("./routes/resources");
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
+
 // app.use(cookieSession({
 //   name : 'session',
 //   keys : ['key1'],
@@ -42,62 +44,47 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
- //app.use("/api/users", usersRoutes(knex));
+// app.use("/api/users", usersRoutes(knex));
 
-app.use("/api/resources", resourceRoutes(knex));
+app.use("/api/resources",resourceRoutes(knex));
 
 // Home page
+
 
 app.get("/", (req, res) => {
   // console.log('rendering');
   //console.log(req.session);
-  //console.log(req.body.user)
   let templateVars = {
-    userID: req.body.user
-    //userID: document.cookie
+    userID: req.body.cookie
   };
   // console.log("HAZ", req.session.user_id );
   res.render("homepage", templateVars);
 });
 
-// app.get("/wall/:id", (req, res) => {
-//   // console.log('rendering');
-//   //console.log(req.session);
-//   console.log(req.params.id)
-//   let templateVars = {
-//     userID: req.params.id
-//   };
-//   // console.log("HAZ", req.session.user_id );
-//   res.render("homepage", templateVars);
-// });
-
 //if sending cookie server side then use the template format
 
 app.get("/favs", (req, res) => {
   // console.log('rendering');
-  //console.log(req.session)
-  let templateVars = {
-    userID: req.body.data
-  };
-  res.render("favorites", templateVars);
+  console.log(req.session)
+  res.render("favorites");
 });
-
-app.get("/login", (req, res) => {
+  
+app.get("/login", (req,res) => {
   console.log("click")
-  let templateVars = {
-    userID: req.body.data
-  };
-  res.render("login", templateVars);
+  res.render("login");
 });
 
+app.post("/login", (req,res) => {
+  console.log("login", req.body);
+  req.session.user_id = req.body.userID;
+  res.redirect("/");
+});
 
 app.get("/:id", (req, res) => {
   // console.log('rendering');
-  // console.log(req.session)
+  console.log(req.session)
   res.render("specificResource");
 });
-
-//   res.redirect("/");
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

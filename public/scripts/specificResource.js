@@ -108,7 +108,7 @@ $(document).ready(function(){
 
     const checkPersonalLike = (personalLikes) => {
       console.log('got into checkpersonalLikes');
-      $('personalLike').empty();
+      $('.personalLike').empty();
       if(personalLikes === undefined) {
          $('.personalLike').append('<p> NOT LIKED </p>');
          $('form.like').show();

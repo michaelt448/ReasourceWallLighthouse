@@ -66,6 +66,7 @@ body {
     
     .title {
     margin-bottom:2px;
+    font:bold
     }
     .description {
 
@@ -74,6 +75,26 @@ body {
     font:bold;
     }
   }
+
+  .eachResource:hover {
+    border-style: solid;
+    border-radius: $border-radius;
+    border-color: #c6c6c6;
+    border-width: 1px;
+    align-items: center;
+      
+      .title {
+      margin-bottom:2px;
+      }
+      .description {
+  
+      }
+      .category {
+      font:bold;
+      }
+  }
+  
+  
 }
 
 
