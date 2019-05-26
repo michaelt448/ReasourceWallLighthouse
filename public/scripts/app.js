@@ -30,7 +30,8 @@ $(document).ready(function() {
     $.ajax({
       method: "GET",
       url: "api/resources/",
-      //data: {user:document.cookie}
+      data: {user:2}
+      //data: document.cookie
     }).done((resources) => {
       for(let resource of resources) {
         createTile(resource);

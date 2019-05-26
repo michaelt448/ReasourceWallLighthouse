@@ -34,6 +34,7 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
   src: __dirname + "/styles",
@@ -46,7 +47,7 @@ app.use(express.static("public"));
 // Mount all resource routes
  //app.use("/api/users", usersRoutes(knex));
 
-app.use("/api/resources", resourceRoutes(knex));
+ app.use("/api/resources", resourceRoutes(knex));
 
 // Home page
 app.get("/specificResource", (req, res) => {
@@ -55,14 +56,14 @@ app.get("/specificResource", (req, res) => {
   res.render("specificResource");
 });
 
-app.get("/", (req, res) => {
+app.get("/wall/:id", (req, res) => {
   // console.log('rendering');
   //console.log(req.session);
-  //console.log(req.body.user)
-  let templateVars = {
-    userID: req.body.user
+  console.log(req.params.id)
+  // let templateVars = {
+  //   userID: req.params.user
     //userID: document.cookie
-  };
+  // };
   // console.log("HAZ", req.session.user_id );
   res.render("homepage", templateVars);
 });
