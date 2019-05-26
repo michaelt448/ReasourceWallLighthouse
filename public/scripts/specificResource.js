@@ -5,33 +5,32 @@ $(document).ready(function(){
     const user_id = $('input');
     const rankButton = $('input.rankButton');
     const commentButton = $('.commentBox input');
-    // const rankValue = $('select option:selected')
+    const pathName = window.location.pathname;
+    const pathInt = parseInt(pathName.slice(1,pathName.length));
 
     const renderPage = () => {
       $('#anchor').empty();
-      console.log('I am in render page');
-      $.get('/api/resources/'+ 3) //---->>> 2 is resource id, hardcoded
+      // console.log('this is path name', pathInt);
+      $.get('/api/resources/'+ pathInt) //---->>> 2 is resource id, hardcoded
       .then((object) => {
         console.log(object);
         if(Cookies.get('user_id') === undefined) {
           renderUserPublicPage(object);
-          console.log('i am public');
+          // console.log('i am public');
         } else {
           renderUserSpecificPage(object);
-          console.log('i am private');
+          // console.log('i am private');
         }
       }) 
     }
 
     const renderUserSpecificPage = (resource) => {
-      console.dir(resource);
       renderComments(resource.comments); 
       renderLikes(resource.likes);
       renderRank(resource.ranks);
       renderResources(resource.resourceProperties[0]);
       checkPersonalLike(resource.personalLike);
       checkPersonalRank(resource.personalRank);
-      // renderCommentBox();
       $('.rankBox').show();
       $('.commentBox').show();
       
@@ -69,36 +68,35 @@ $(document).ready(function(){
       }
       else {
       const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
-      // const avg_rank = parseInt(rank[0].avg);
        $('.averageRank').append($('<p>').text(avg_rank));
       }
     }
 
     const renderResources = (properties) => {
-      // console.dir(properties); 
-      // const propertyTag = $('div').addClass('Properties');
       $('div.properties').empty();
+      console.log(properties);
        $('div.properties')
-      .append(`<p> This is resource url : ${properties.url}</p>`)
-      .append(`<p> This is when resource created : ${properties.create_at}</p>`)
-      .append(`<p> This is resource title : ${properties.title}</p>`)
-      .append(`<p> This is resource image : ${properties.url_img}</p>`)
-      .append(`<p> This is resource description : ${properties.description}</p>`)
+      .append(`<p class = 'url'> This is resource url : <a href = "${properties.url}">${properties.url}</a></p>`)
+      .append(`<p class = 'createdTime'> This is when resource created : ${properties.create_at}</p>`)
+      .append(`<p class = 'title'> This is resource title : ${properties.title}</p>`)
+      .append(`<img class = 'image' src = ${properties.url_img}>`)
+      .append(`<p class = 'description'> This is resource description : ${properties.description}</p>`)
+      .append(`<p class = 'category'> This is resource category : ${properties.category}</p>`)
       .addClass('properties');
 
     }
 
     const checkPersonalRank = (personalRanks) => {
-      console.log('I am inside the personalRanks');
-      console.log(personalRanks);
+      // console.log('I am inside the personalRanks');
+      // console.log(personalRanks);
       $('.personalRank').empty();
       if(personalRanks === undefined) {
          $('.personalRank').append(`<p> NO PERSONAL RANK</p>`);
       } 
       else {
       for(personalRank of personalRanks) {
-        console.log('inside the personal Rank',personalRank);
-        console.log('the cookie to compare', Cookies.get('user_id'));
+        // console.log('inside the personal Rank',personalRank);
+        // console.log('the cookie to compare', Cookies.get('user_id'));
         if(personalRank.user_id === parseInt(Cookies.get('user_id'))){
            $('.personalRank').append(`<p>${parseInt(personalRank.rank_value)}</p>`);
            return;
@@ -148,8 +146,7 @@ $(document).ready(function(){
 
     likeButton.on('click', function(e) {
       e.preventDefault();
-      console.log('inside the like button');
-      $.post('/api/resources/'+ 3 + '/like',{user_id : Cookies.get('user_id')});
+      $.post('/api/resources/'+ pathInt + '/like',{user_id : Cookies.get('user_id')});
       renderPage();
       $('form.like').hide();
       $('form.unlike').show();
@@ -157,14 +154,13 @@ $(document).ready(function(){
 
     unLikeButton.on('click', function(e) {
       e.preventDefault();
-      console.log('inside the unlike button');
-      $.post('/api/resources/'+ 3 +'/like/delete',{user_id : Cookies.get('user_id')})
-      // renderPage();
+      // console.log('inside the unlike button');
+      $.post('/api/resources/'+ pathInt +'/like/delete',{user_id : Cookies.get('user_id')})
       });
     
 
     logInButton.on('click', function(e) {
-      console.log('the text value is ' + user_id.val());
+      // console.log('the text value is ' + user_id.val());
       e.preventDefault();
       Cookies.set('user_id',user_id.val());
       renderPage();
@@ -173,11 +169,7 @@ $(document).ready(function(){
     rankButton.on('click',function(e) {
       e.preventDefault();
       const rankValue = $('select option:selected').val()
-      console.log('insde the rank button');
-      console.log('this is the value for rank',rankValue);
-      // console.log('this is the value which is selected', rankValue.val());
-      // console.log(rankValue.val());
-      $.post('/api/resources/'+ 3 + '/rank',{user_id : Cookies.get('user_id'),
+      $.post('/api/resources/'+ pathInt + '/rank',{user_id : Cookies.get('user_id'),
       rank_value : parseInt(rankValue)});
       renderPage();
     })
@@ -185,25 +177,10 @@ $(document).ready(function(){
     commentButton.on('click', function(e) {
       e.preventDefault();
       const newComment = $('.commentBox textarea').val();
-      console.log('inside the comment');
-      console.log('the comment is ', newComment);
-      $.post('/api/resources/'+3+'/comment', {user_id :Cookies.get('user_id'), comment : newComment})
+      // console.log('inside the comment');
+      // console.log('the comment is ', newComment);
+      $.post('/api/resources/'+ pathInt +'/comment', {user_id :Cookies.get('user_id'), comment : newComment})
       renderPage();
     })
     renderPage()
-    // $('#tweet-container').empty();
-    // checkCookie();
-    //Cookies.set()
-    // renderComments([
-    //   {
-    //     user_id : 2,
-    //     comment: 'awesome',
-    //     created_at: '2 min ago'
-    //   },
-    //   {
-    //     user_id: 2,
-    //     comment: 'the bestest alive',
-    //     created_at: '10 min ago'
-    //   }
-    // ])
 })
