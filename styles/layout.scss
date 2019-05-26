@@ -64,14 +64,17 @@ body {
   border-width: 1px;
   align-items: center;
     
-    .title {
+    .existing-resource:hover .title {
     margin-bottom:2px;
     font:bold
     }
     .description {
 
     }
-    .category {
+    .existing-resource:hover .description {
+      color:black;
+    }
+    .existing-resource:hover .category {
     font:bold;
     }
   }

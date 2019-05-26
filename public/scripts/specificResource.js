@@ -87,16 +87,12 @@ $(document).ready(function(){
     }
 
     const checkPersonalRank = (personalRanks) => {
-      // console.log('I am inside the personalRanks');
-      // console.log(personalRanks);
       $('.personalRank').empty();
       if(personalRanks === undefined) {
          $('.personalRank').append(`<p> NO PERSONAL RANK</p>`);
       } 
       else {
       for(personalRank of personalRanks) {
-        // console.log('inside the personal Rank',personalRank);
-        // console.log('the cookie to compare', Cookies.get('user_id'));
         if(personalRank.user_id === parseInt(Cookies.get('user_id'))){
            $('.personalRank').append(`<p>${parseInt(personalRank.rank_value)}</p>`);
            return;
@@ -119,9 +115,8 @@ $(document).ready(function(){
       for(personalLike of personalLikes) {
         console.log('got into the personalLikes for loop');
         if(personalLike.user_id === parseInt(Cookies.get('user_id'))){
-          // console.log('the cookie matches');
            $('.personalLike').append('<p> LIKED </p>');
-           $('form.like').hide();
+           $('form.like').hide(); 
            $('form.unlike').show();
            return;
         }
@@ -133,6 +128,7 @@ $(document).ready(function(){
   }
 
     const renderUserPublicPage = (resource) => {
+      console.log('i am going public');
       renderLikes(resource.likes)
       renderRank(resource.ranks)
       renderResources(resource.resourceProperties[0])
