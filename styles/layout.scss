@@ -94,7 +94,7 @@ body {
   width: 0;
   caret-color:transparent;
   line-height: 40px;
-  transition: width 0.4s linear;
+  //transition: width 0.4s linear;
   }
 
   .searchbar:hover > .search_input{
@@ -102,7 +102,7 @@ body {
   margin-bottom:20em;
   width: 450px;
   caret-color:red;
-  transition: width 0.4s linear;
+  //transition: width 0.4s linear;
   }
 
   .searchbar:hover > .search_icon{

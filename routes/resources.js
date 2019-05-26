@@ -50,9 +50,9 @@ module.exports = (knex) => {
     var searchTerm = req.params.term;
     console.log("rohit ", searchTerm);
     knex('resources').where(function() {
-      this.where('title', 'like', '%CSS%')
-    }).orWhere('description', 'like','%CSS%')
-      .orWhere('category', 'like', '%CSS%')
+      this.where('title', 'like', `%${searchTerm}%`);
+    }).orWhere('description', 'like',`%${searchTerm}%`)
+      .orWhere('category', 'like', `%${searchTerm}%`)
       .select('*')
       .then((results) => {
         res.json(results);

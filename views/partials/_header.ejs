@@ -1,3 +1,5 @@
+ 
+<% if (userID) { %>
 
   <nav id="nav-bar">
     <div class="navdiv">
@@ -8,6 +10,24 @@
     </div>
     <button type="button" class="btn btn-info add-button">
       <i class="fas fa-edit"></i>
-      Add new resource!
+      Add new resource
     </button>
   </nav>
+
+ <% } else {  %>
+
+ <nav id="nav-bar">
+      <div class="navdiv">
+        <h1 class="header tweeter">Welcome to the resource homepage</h1>
+      </div>
+     <a class="btn btn-info login-button" href="/login">
+         <i class="fa-sign-in-alt"></i>
+         Login
+       </a>
+    </nav> 
+
+    
+  </nav>
+
+<% } %>
+  

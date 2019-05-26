@@ -3,7 +3,7 @@
 $(document).ready(function() {
   $(".new-url").hide();
 
-  console.log(document.cookie.split("=")[1]);
+  console.log(document.cookie);
 
 
   const $grid = $(".grid").masonry({
@@ -70,9 +70,11 @@ $(document).ready(function() {
     });
   });
 
-  const searchBar = $(".searchbar");
+  //if search term is blank load all resources or just send error message
+  const searchBar = $(".searchbar a");
   searchBar.on('click', function (event){
-    var data = "css";
+    var data = $(".search_input").val();
+    console.log(data);
     $.ajax({
       url: '/api/resources/search/'+ data,
       method: 'GET',
@@ -83,20 +85,22 @@ $(document).ready(function() {
       error: function(err){
         console.log("we are not good ",err);
       }
+    }).done((resources) => {
+      // if (data === Nan) {
+
+      // } else {
+        console.log("are you geting here?");
+        $(".grid").html("");
+        for(let resource of resources) {
+          createTile(resource);
+        // }  
+      }
     });
 
-    //do it through the params
+  });   
 
-  //  ` $ajax({
-  //     method: "GET",
-  //     url: "api/resources/search"
-  //   }).done((resources) => {
-  //     for(let resource of resources) {
-  //       createTile(resource);
-  //     }
-      
-  //   })`;
-  });
+  
+  
 
 
 
