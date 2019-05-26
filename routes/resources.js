@@ -20,13 +20,15 @@ module.exports = (knex) => {
 
 
   router.post('/:id/comment', (req, res) => {
+    console.log('inside correct route');
+    console.log('this is user id',parseInt(req.body.user_id));
+    console.log('this is resource id', req.params.id);
+    console.log('this is the comment, ', req.body.comment)
     knex('comments').insert({
-      user_id: 2,
-      resource_id: 1,
-      comment: "Great resource- thanks for posting!"
-    }).returning(['comment','user_id','resource_id','created_at']).then((result) => {
-      res.json({ message: "Successful request to commit table", result });
-    });
+      user_id: parseInt(req.body.user_id),
+      resource_id:parseInt(req.params.id),
+      comment: req.body.comment
+    }).catch(err => console.log(err));
   });
 
   router.patch('/:id/rank/:rank_id', (req, res) => {
@@ -59,24 +61,53 @@ module.exports = (knex) => {
       });
   });
 
-  // .where(function() {
-  //   this.where('id', 1).orWhere('id', '>', 10)
-  // }).orWhere({name: 'Tester'})
-
-  router.get('/:id', (req, res) => {
-    var id = req.params.id;
+  router.get("/:id", (req, res) => {
+ 
+    let id = req.params.id;
     id = parseInt(id);
-    knex
-      .select('*')
-      .from('resources')
-      .where('id', id)
-      // .where("id: 1")//, req.params.id)
-      .then((results) => {
-        res.json(results);
-      });
+    console.log('id passed in is', id);
+    let commentPromise = knex('comments')//START OF COMMENT QUARY
+    .select('comment','created_at','user_id')
+    .where('resource_id',id); // END OF COMMENT GETTING QUARY
+
+    let likesPromise = knex('likes') // START OF LIKES QUARY
+    .count('id')
+    .where('resource_id',id); // END OF LIKES QUARY
+
+    let personalLikePromise = knex('likes')
+    .select('user_id')
+    .where('resource_id',id);
+
+    let personalRankPromise = knex('rank')
+    .select('user_id','rank_value')
+    .where('resource_id',id);
+
+    let rankPromise = knex('rank') //START OF RANKS QUARY
+    .avg('rank_value')
+    .where('resource_id',id); //END OF RANKS QUARY
+
+    let resourcePromise = knex
+      .select("*")
+      .from("resources")
+      .where("id", id);
+
+      Promise.all([commentPromise,likesPromise,rankPromise,resourcePromise,personalLikePromise,personalRankPromise]).then((promiseResults) => {
+        const [comments,likes,ranks,resourceProperties,personalLike,personalRank] = promiseResults;
+        res.json({
+          comments,
+          likes,
+          ranks,
+          resourceProperties,
+          personalLike,
+          personalRank
+        })
+      }).catch((err) => {
+        console.log(err);
+      })
   });
 
   router.get("/:id/favorites", (req, res) => {
+    console.log('I am inside the route');
     var id = req.params.id;
     id = parseInt(id);
     var subquery = knex('likes').where('user_id', id).select('resource_id');
@@ -91,47 +122,50 @@ module.exports = (knex) => {
   });
 
   router.post('/:id/rank', (req, res) => {
+    //const current_user = req.session.user_id;
+    // console.log(req.body.user_id);
+    // console.log(req.params.id);
+    // console.log(req.body.rank_value);
     var id = req.params.id;
     id = parseInt(id);
     knex('rank').insert(
       {
-        user_id: id,
-        resource_id: req.body.resource_id,
-        rank_value: req.body.rank_value
+        user_id: req.body.user_id,
+        resource_id: req.params.id,
+        rank_value: parseInt(req.body.rank_value)
       }).then((result) => {
-      res.json({ message: "Successful rank added", result });
-    });
+        res.json( result );
+      });
   });
 
-  //   router.post('/login', (req,res) => {
-  //     // console.log('i am inside posting');
-  //     // console.log(req.body);  
-  //     console.log(req.session);
-  //     req.session.user_id = req.body.user_id;
-  //     console.log('this is my cookie' + req.session.user_id);
-  //     res.redirect('/'); // TODO: change this to root page later
-  // }) --------->>>>>>> NEEDS TO BE DELETED IF USER TABLE IS NOT MADE
+//   router.post('/login', (req,res) => {
+//     // console.log('i am inside posting');
+//     // console.log(req.body);  
+//     console.log(req.session);
+//     req.session.user_id = req.body.user_id;
+//     console.log('this is my cookie' + req.session.user_id);
+//     res.redirect('/'); // TODO: change this to root page later
+// })
 
-  // router.get('/', (req, res) => {
-  //   knex
-  //     .select('*')
-  //     .from('resources')
-  //     .then((results) => {s
-  //       res.json(results);
-  //     });
-  // });
+router.get('/', (req, res) => {
+    knex
+        .select('*')
+        .from('resources')
+        .then((results) => {
+            res.json(results);
+        });
+});
 
-  router.post('/:id/like', (req, res) => {
-    console.log('i am in id like');
-    const current_user = req.session.user_id;
+router.post('/:id/like', (req, res) => {
     knex('likes').insert(
-      {user_id : current_user, resource_id : req.params.resource_id});
-  });
+        {user_id : req.body.user_id, resource_id : req.params.id})
+        .catch(err => console.log(err));
+});
 
-  router.delete('/:id/like', (req, res) => {
-    const current_user = req.session.user_id;
-    knex('likes').where({user_id : current_user}).del();
-  });
+router.post('/:id/like/delete', (req, res) => {
+    console.log('inside the delete route');
+    knex('likes').where('user_id', req.body.user_id).del();
+});
 
 
   return router;

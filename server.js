@@ -13,7 +13,7 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-//const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 
 // Seperated Routes for each Resource
 const resourceRoutes = require("./routes/resources");
@@ -22,7 +22,6 @@ const resourceRoutes = require("./routes/resources");
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
-
 // app.use(cookieSession({
 //   name : 'session',
 //   keys : ['key1'],
@@ -49,17 +48,16 @@ app.use(express.static("public"));
 app.use("/api/resources",resourceRoutes(knex));
 
 // Home page
-app.get("/specificResource", (req, res) => {
+app.get("/2", (req, res) => {
   // console.log('rendering');
   console.log(req.session)
   res.render("specificResource");
 });
 
 app.get("/", (req, res) => {
-  // console.log('rendering');
-  //console.log(req.session);
+  console.log()
   let templateVars = {
-    userID: document.cookie
+    userID: req.body.user_id
   };
   // console.log("HAZ", req.session.user_id );
   res.render("homepage", templateVars);
@@ -78,11 +76,11 @@ app.get("/login", (req,res) => {
   res.render("login");
 });
 
-app.post("/login", (req,res) => {
-  console.log("login", req.body);
-  req.session.user_id = req.body.userID;
-  res.redirect("/");
-});
+// app.post("/login", (req,res) => {
+//   console.log("login", req.body);
+//   req.session.user_id = req.body.userID;
+//   res.redirect("/");
+// });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

@@ -31,8 +31,9 @@ $(document).ready(function () {
         $.ajax({
           method: "GET",
           //url: "api/resources"
-          //url: "api/resources/" + id + "/favorites"
-          url: "api/resources/" + idtest + "/favorites"
+          // url: "api/resources/" + id + "/favorites"
+          url: "api/resources/" + idtest + "/favorites".slice,
+          data: {user_id : Cookies.get('user_id')}
         }).done((resources) => {
           for(let resource of resources) {
             createTile(resource);
