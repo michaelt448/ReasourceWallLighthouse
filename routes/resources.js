@@ -31,11 +31,15 @@ module.exports = (knex) => {
 
 
   router.post('/:id/comment', (req, res) => {
+    console.log('inside correct route');
+    console.log('this is user id',parseInt(req.body.user_id));
+    console.log('this is resource id', req.params.id);
+    console.log('this is the comment, ', req.body.comment)
     knex('comments').insert({
-      user_id: 2,
-      resource_id: 1,
-      Comment: "Great resource- thanks for posting!"
-    });
+      user_id: parseInt(req.body.user_id),
+      resource_id:parseInt(req.params.id),
+      comment: req.body.comment
+    }).catch(err => console.log(err));
   });
 
   router.patch('/:id/rank/:rank_id', (req, res) => {
@@ -124,7 +128,7 @@ module.exports = (knex) => {
       {
         user_id: req.body.user_id,
         resource_id: req.params.id,
-        rank_value: req.body.rank_value
+        rank_value: parseInt(req.body.rank_value)
       }).then((result) => {
         res.json( result );
       });

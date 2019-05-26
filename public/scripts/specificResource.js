@@ -4,7 +4,8 @@ $(document).ready(function(){
     const unLikeButton = $('button.unLikeButton')
     const user_id = $('input');
     const rankButton = $('input.rankButton');
-    const rankValue = $('select option')
+    const commentButton = $('.commentBox input');
+    // const rankValue = $('select option:selected')
 
     const renderPage = () => {
       $('#anchor').empty();
@@ -30,20 +31,18 @@ $(document).ready(function(){
       renderResources(resource.resourceProperties[0]);
       checkPersonalLike(resource.personalLike);
       checkPersonalRank(resource.personalRank);
-      renderCommentBox();
+      // renderCommentBox();
       $('.rankBox').show();
+      $('.commentBox').show();
       
     }
     const renderComments = (comments) => {
-      for(comment of comments) {
+      $('.comments').empty();
+      const reverseComments = comments.reverse()
+      for(comment of reverseComments) {
         // console.log(comment);
         $('.comments').append(renderComment(comment));
       }
-    }
-
-    const renderCommentBox = () => {
-      // very dirty code, this is to make the text box appear dynamically
-       $('.comments').append("<form class='commentBox'type = 'POST' action='/resources:id/comment'><textarea name='text' placeholder='Leave your thoughts below!!'></textarea><input type='submit' value='Comment'></form>")
     }
 
     const renderComment = (comment) => {
@@ -143,6 +142,7 @@ $(document).ready(function(){
       $('form.like').hide();
       $('form.unlike').hide();
       $('form.rankBox').hide();
+      $('.commentBox').hide();
       
     }
 
@@ -172,13 +172,23 @@ $(document).ready(function(){
 
     rankButton.on('click',function(e) {
       e.preventDefault();
+      const rankValue = $('select option:selected').val()
       console.log('insde the rank button');
+      console.log('this is the value for rank',rankValue);
+      // console.log('this is the value which is selected', rankValue.val());
       // console.log(rankValue.val());
       $.post('/api/resources/'+ 3 + '/rank',{user_id : Cookies.get('user_id'),
-      rank_value : parseInt(rankValue.val())});
+      rank_value : parseInt(rankValue)});
       renderPage();
     })
 
+    commentButton.on('click', function(e) {
+      e.preventDefault();
+      const newComment = $('.commentBox textarea').val();
+      console.log('inside the comment');
+      console.log('the comment is ', newComment);
+      $.post('/api/resources/'+3+'/comment', {user_id :Cookies.get('user_id'), comment : newComment})
+    })
     renderPage()
     // $('#tweet-container').empty();
     // checkCookie();
