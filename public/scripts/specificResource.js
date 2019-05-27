@@ -68,7 +68,8 @@ $(document).ready(function(){
     }
     else {
       const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
-      $('.averageRank').append($('<p>').text(avg_rank));
+      const short_avg = avg_rank.slice(0,1)
+      $('.averageRank').append($('<p>').text(short_avg));
     }
   };
 
@@ -91,16 +92,16 @@ $(document).ready(function(){
   const checkPersonalRank = (personalRanks) => {
     $('.personalRank').empty();
     if(personalRanks === undefined) {
-      $('.personalRank').append(`<p> No personal rank</p>`);
+      $('.personalRank').append(`<p> </p>`);
     } 
     else {
       for(personalRank of personalRanks) {
         if(personalRank.user_id === parseInt(Cookies.get('user_id'))){
-          $('.personalRank').append(`<p>${parseInt(personalRank.rank_value)}</p>`);
+          $('.personalRank').append(`<p>my ranking: ${parseInt(personalRank.rank_value)}</p>`);
           return;
         }
      }
-      $('.personalRank').append(`<p> No personal rank</p>`);
+      $('.personalRank').append(`<p> </p>`);
   }
 }
 
