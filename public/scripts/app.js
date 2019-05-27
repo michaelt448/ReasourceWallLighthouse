@@ -98,7 +98,10 @@ $(document).ready(function () {
   //if search term is blank load all resources or just send error message
   const searchBar = $(".searchbar a");
   searchBar.on('click', function (event) {
-    var data = $(".search_input").val();
+    // var data = $(".search_input").val();
+    var data = $(".search_input").val().toLowerCase();
+    //console.log("Jack 1",  data);
+
     if (data === "") {
       console.log("insideif")
       $(".no-entry").slideDown("slow");
