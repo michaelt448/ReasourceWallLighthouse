@@ -13,6 +13,9 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+//jb cookie
+var cookieParser = require('cookie-parser');
+
 
 // Seperated Routes for each Resource
 const resourceRoutes = require("./routes/resources");
@@ -27,6 +30,8 @@ app.use(morgan('dev'));
 //   maxAge : 1000*60*60
 // }));
 
+//jb cookie
+app.use(cookieParser());
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
@@ -48,12 +53,16 @@ app.use("/api/resources", resourceRoutes(knex));
 
 // Home page
 
+//jb cookie
+// run  npm install cookie-parser
 app.get("/", (req, res) => {
   // console.log('rendering');
   //console.log(req.session);
-  //console.log(req.body.user)
+  // console.log(req.body.user);
+  // console.log(req.cookies);
+  // console.log(req.cookies && req.cookies.user_id);
   let templateVars = {
-    userID: req.body.user
+    userID: req.cookies.user_id
     //userID: document.cookie
   };
   // console.log("HAZ", req.session.user_id );

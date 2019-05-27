@@ -9,7 +9,4 @@ logInButton.on('click', function(event) {
     document.location.href="/";
     })
 
-
-
-
 });
