@@ -76,12 +76,12 @@ $(document).ready(function(){
       $('div.properties').empty();
       console.log(properties);
        $('div.properties')
-      .append(`<p class = 'url'> This is resource url : <a href = "${properties.url}">${properties.url}</a></p>`)
-      .append(`<p class = 'createdTime'> This is when resource created : ${properties.create_at}</p>`)
       .append(`<p class = 'title'> This is resource title : ${properties.title}</p>`)
-      .append(`<img class = 'image' src = ${properties.url_img}>`)
       .append(`<p class = 'description'> This is resource description : ${properties.description}</p>`)
       .append(`<p class = 'category'> This is resource category : ${properties.category}</p>`)
+      .append(`<p class = 'url'> This is resource url : <a href = "${properties.url}">${properties.url}</a></p>`)
+      .append(`<img class = 'image' src = ${properties.url_img}>`)
+      .append(`<p class = 'createdTime'> created at: ${properties.create_at}</p>`)
       .addClass('properties');
 
     }

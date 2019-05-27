@@ -2,6 +2,9 @@ $navbar-background: #f38181;
 $body-background: #fce38a;
 $border-radius: 10px;
 
+body {
+    background-color: #EEE;
+  }
 
 .comments {
     position: relative;
@@ -13,38 +16,60 @@ $border-radius: 10px;
     flex-direction:column;
     border-style: solid;
     border-radius: $border-radius;
-    border-color: #c6c6c6;
+    border-color:  #ffffff;
     border-width: 1px;
     margin: 20px;
     width: 80%;
     align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color:#103C42;
+
+    .title{
+       font-weight: 800;
+       font-size:35px;
+    }
+
+    .description{
+        font-weight: 600;
+    }
+    .category {
+        font-weight: 600;
+    }
 
     .url{
         
     }
 
     .image {
-        
+        border-radius: $border-radius;
     }
 
     .createdTime{
-        position: relative;
+        // position: relative;
     }
 
-    .description{
-        position: relative;
-    }
+   
 
-    .category{
-        position: relative;
-    }
+   
 
-    .title{
-        position: relative;
-    }
+    
 }
 
 .like-box {
+    display:flex;
+    flex-direction: row;
+    // border-style: solid;
+    // border-radius: $border-radius;
+    // border-color: #c6c6c6;
+    // border-width: 1px;
+    margin: 20px;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-box {
     display:flex;
     flex-direction: row;
     border-style: solid;
@@ -55,16 +80,4 @@ $border-radius: 10px;
     width: 80%;
     align-items: center;
     justify-content: space-between;
-}
-
-.comment-box {
-    display:flex;
-    flex-direction:column;
-    border-style: solid;
-    border-radius: $border-radius;
-    border-color: #c6c6c6;
-    border-width: 1px;
-    margin: 20px;
-    width: 80%;
-    align-items: center;
 }
