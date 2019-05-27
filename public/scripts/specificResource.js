@@ -36,22 +36,22 @@ $(document).ready(function(){
     
   };
   const renderComments = (comments) => {
-    $('.comments').empty();
+    // $('.comment-box').empty();
     const reverseComments = comments.reverse()
     for(comment of reverseComments) {
       // console.log(comment);
-      $('.comments').append(renderComment(comment));
+      $('.comment-box').append(renderComment(comment));
     }
   };
 
   const renderComment = (comment) => {
     const newArticle = $('<article>').addClass('comment');
 
-    const header = $('<p>').addClass('comment-header').text(comment.user_id);
+    // const header = $('<p>').addClass('comment-header').text(comment.user_id);
     const parag = $('<p>').addClass('comment-text').text(comment.comment);
-    const footer = $('<p>').addClass('comment-text').text(comment.created_at);
+    // const footer = $('<p>').addClass('comment-text').text(comment.created_at);
 
-    return newArticle.append(header, parag, footer);
+    return newArticle.append(parag);
   };
 
   const renderLikes = (like) => {
