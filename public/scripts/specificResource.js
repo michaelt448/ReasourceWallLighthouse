@@ -67,9 +67,9 @@ $(document).ready(function(){
       $('.averageRank').text('No rank');
     }
     else {
-      const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
-      const short_avg = avg_rank.slice(0,1)
-      $('.averageRank').append($('<p>').text(short_avg));
+      const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(1);
+      // const short_avg = avg_rank.slice(0,1)
+      $('.averageRank').append($('<p>').text(`average rank: ${avg_rank}`));
     }
   };
 
