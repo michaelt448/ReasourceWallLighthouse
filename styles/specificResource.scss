@@ -1,17 +1,30 @@
+$navbar-background: #f38181;
+$body-background: #fce38a;
+$border-radius: 10px;
+
+
 .comments {
     position: relative;
     left: 90%;
 }
 
 .properties {
-
-    .image {
-        position: relative;
-        left: 15vw;
-    }
+    display:flex;
+    flex-direction:column;
+    border-style: solid;
+    border-radius: $border-radius;
+    border-color: #c6c6c6;
+    border-width: 1px;
+    margin: 20px;
+    width: 80%;
+    align-items: center;
 
     .url{
-        position: relative;
+        
+    }
+
+    .image {
+        
     }
 
     .createdTime{
@@ -31,13 +44,27 @@
     }
 }
 
-.rankBox {
-
+.like-box {
+    display:flex;
+    flex-direction: row;
+    border-style: solid;
+    border-radius: $border-radius;
+    border-color: #c6c6c6;
+    border-width: 1px;
+    margin: 20px;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.averageRank {
-
-}
-
-.commentBox {
+.comment-box {
+    display:flex;
+    flex-direction:column;
+    border-style: solid;
+    border-radius: $border-radius;
+    border-color: #c6c6c6;
+    border-width: 1px;
+    margin: 20px;
+    width: 80%;
+    align-items: center;
 }
