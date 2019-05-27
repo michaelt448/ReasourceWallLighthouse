@@ -7,8 +7,17 @@ body {
 }
 
 .main-navbar {
-  color: #e0f3f5;
+  color: #FBEABF;
   background-color: #103c42;  
+
+  .navbar-brand {
+    font-size: 45px;
+
+    span{
+      font-style: italic;
+      font-family: system-ui; 
+      }
+  }
 }
 
 #nav-bar {
@@ -62,8 +71,8 @@ body {
   align-items: center;
   
   .eachResource:hover {
-  @extend %each-resource-shared;
-  
+    @extend %each-resource-shared;
+    
   .background {
     filter:saturate(30%) blur(3px);
     transition: 1s;
@@ -95,6 +104,7 @@ body {
     border-color: #c6c6c6;
     border-width: 1px;
     align-items: center;
+    padding:2px;
       
       .title {
       margin-bottom:2px;
@@ -150,7 +160,7 @@ body {
 
 .searchbar{
   margin-bottom: auto;
-  margin-top: 5.5em;
+  margin-top: 8em;
   height: 60px;
   background-color: #353b48;
   border-radius: 30px;

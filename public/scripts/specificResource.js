@@ -83,7 +83,7 @@ $(document).ready(function(){
       .append(`<p class = 'category'> ${properties.category}</p>`)
       .append(`<p class = 'url'> <a href = "${properties.url}">${properties.url}</a></p>`)
       .append(`<img class = 'image' src = ${properties.url_img}>`)
-      .append(`<p class = 'createdTime'> created at: ${createdThen}</p>`)
+      .append(`<p class = 'createdTime'> created: ${createdThen}</p>`)
       .addClass('properties');
 
   };
