@@ -12,8 +12,13 @@ $(document).ready(function () {
     gutter: 15
   });
 
-  function createTile(resource) {
+  function createTile(resource){
+    let background = $('<div>');
+    background.addClass('background');
+    const imgURL = resource.url_img;
+    background.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
     let newDiv = $("<div>");
+    newDiv.append(background);
     newDiv.addClass("eachResource grid-item");
     $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
     $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
