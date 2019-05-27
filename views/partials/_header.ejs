@@ -1,26 +1,29 @@
 <% if (userID) { %>
-  <nav id="nav-bar">
-    <div class="navdiv">
+  <nav class="main-navbar fixed-top navbar navbar-dark">
+    <div class="text-left">
       <a href="/favs" class="btn btn-info fav-button">
-        My favourites!
-      </a>
-      <h1 class="header tweeter">Welcome to the resource homepage</h1>
+        My favourites
+      </a>  
     </div>
-    <button type="button" class="btn btn-info add-button">
-      <i class="fas fa-edit"></i>
-      Add new resource
-    </button>
+    <a class="navbar-brand" href="/">Pita!</a>
+    <div class="text-right">
+      <button type="button" class="btn btn-info add-button">
+        <i class="fas fa-edit"></i>
+        Add new resource
+      </button>
+    </div>
   </nav>
+
  <% } else {  %>
- <nav id="nav-bar">
-      <div class="navdiv">
-        <h1 class="header tweeter">Welcome to the resource homepage</h1>
-      </div>
+  <nav class="main-navbar navbar navbar-dark">
+    <div class="text-left">  
+    </div>  
+    <a class="navbar-brand" href="/">Pita!</a>
+    <div class="text-right">
      <a class="btn btn-info login-button" href="/login">
           <i class="fa-sign-in-alt"></i>
         Login
        </a>
-    </nav> 
-    
+    </div>
   </nav>
 <% } %>

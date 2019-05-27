@@ -59,7 +59,7 @@ $(document).ready(function () {
   //   });
   // });
 
-  const addButton = $("#nav-bar .add-button");
+  const addButton = $(".main-navbar .add-button");
   addButton.on("click", function () {
     const newResourceSection = $(".new-url");
     if (newResourceSection.is(":hidden")) {
