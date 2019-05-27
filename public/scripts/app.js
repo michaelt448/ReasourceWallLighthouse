@@ -23,8 +23,8 @@ $(document).ready(function () {
     $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
     $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
     $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-    const imgURL = resource.url_img;
-    newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
+    // const imgURL = resource.url_img;
+    // newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
     let newLink = $("<a>").attr("href", `/${resource.id}`)
     newDiv.appendTo(newLink);
     newLink.prependTo($(".existing-resource"));
