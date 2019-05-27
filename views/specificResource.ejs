@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Home Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -20,22 +21,22 @@
     <div class = "like-box">
       <form class='like' type ='POST'>
         <button type="button" class='likeButton btn btn-info'>
-            <p>Like</p>
+            Like
         </button>
       </form>
       <form class='unlike' type ='POST'>
         <button type="button" class='unLikeButton btn btn-info'>
-            <p>Unlike</p>
+            Unlike
         </button>
       </form>
-      <span class='totalLike'></span>
+      <span class='totalLike createdTime'></span>
       <span class='personalLike'></span>
     </div>
 
     <div class = "comment-box">
       <form class='commentBox'type = 'POST'>
         <textarea placeholder='Leave your thoughts below!!'></textarea>
-        <input type='submit' value='Comment'>
+        <input type='submit' value='Comment' class='btn btn-info'>
       </form>
       <span class='comments'></span>
       <form class='rankBox' type= 'POST'>
@@ -46,7 +47,7 @@
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        <input class = 'rankButton' type='submit'>
+        <input class ='rankButton' type='submit' class='btn btn-info'>
       </form>
       <span class='personalRank'></span>
       <span class='averageRank'></span>
