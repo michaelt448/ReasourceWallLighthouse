@@ -20,10 +20,6 @@ module.exports = (knex) => {
 
 
   router.post('/:id/comment', (req, res) => {
-    console.log('inside correct route');
-    console.log('this is user id',parseInt(req.body.user_id));
-    console.log('this is resource id', req.params.id);
-    console.log('this is the comment, ', req.body.comment)
     knex('comments').insert({
       user_id: parseInt(req.body.user_id),
       resource_id:parseInt(req.params.id),
@@ -47,19 +43,8 @@ module.exports = (knex) => {
         res.json(results);
       });
   });
-
-  // router.get('/wall/:id', (req, res) => {
-  //   knex
-  //     .select('*')
-  //     .from('resources')
-  //     .then((results) => {
-  //       res.json(results);
-  //     });
-  // });
-
   router.get('/search/:term', (req,res) => {
     var searchTerm = req.params.term;
-    console.log("Jack 2 ", searchTerm);
     knex('resources').where(function() {
       this.whereRaw(`LOWER(title) LIKE ?`, [`%${searchTerm}%`]);
     })  .orWhereRaw(`LOWER(description) LIKE ?`, [`%${searchTerm}%`])
@@ -69,20 +54,6 @@ module.exports = (knex) => {
         res.json(results);
       });
   });
-
-  // router.get('/search/:term', (req,res) => {
-  //   var searchTerm = req.params.term;
-  //   console.log("Jack 2 ", searchTerm);
-  //   knex('resources').where(function() {
-  //     this.where('title', 'like', `%${searchTerm}%`);
-  //   }).orWhere('description', 'like',`%${searchTerm}%`)
-  //     .orWhere('category', 'like', `%${searchTerm}%`)
-  //     .select('*')
-  //     .then((results) => {
-  //       res.json(results);
-  //     });
-  // });
-
 
   router.get("/:id", (req, res) => {
  
@@ -97,13 +68,13 @@ module.exports = (knex) => {
     .count('id')
     .where('resource_id',id); // END OF LIKES QUARY
 
-    let personalLikePromise = knex('likes')
+    let personalLikePromise = knex('likes') // START OF PERSONAL LIK
     .select('user_id')
-    .where('resource_id',id);
+    .where('resource_id',id); // END OF PERSONAL LIKE
 
-    let personalRankPromise = knex('rank')
+    let personalRankPromise = knex('rank') // START OF PERSONAL RANK
     .select('user_id','rank_value')
-    .where('resource_id',id);
+    .where('resource_id',id); // END OF PERSONAL RANK
 
     let rankPromise = knex('rank') //START OF RANKS QUARY
     .avg('rank_value')
@@ -130,7 +101,6 @@ module.exports = (knex) => {
   });
 
   router.get("/:id/favorites", (req, res) => {
-    console.log('I am inside the route');
     var id = req.params.id;
     id = parseInt(id);
     var subquery = knex('likes').where('user_id', id).select('resource_id');
@@ -145,10 +115,6 @@ module.exports = (knex) => {
   });
 
   router.post('/:id/rank', (req, res) => {
-    //const current_user = req.session.user_id;
-    // console.log(req.body.user_id);
-    // console.log(req.params.id);
-    // console.log(req.body.rank_value);
     var id = req.params.id;
     id = parseInt(id);
     knex('rank').insert(
@@ -160,16 +126,6 @@ module.exports = (knex) => {
         res.json( result );
       });
   });
-
-//   router.post('/login', (req,res) => {
-//     // console.log('i am inside posting');
-//     // console.log(req.body);  
-//     console.log(req.session);
-//     req.session.user_id = req.body.user_id;
-//     console.log('this is my cookie' + req.session.user_id);
-//     res.redirect('/'); // TODO: change this to root page later
-// })
-
 router.get('/', (req, res) => {
     knex
         .select('*')

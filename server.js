@@ -13,7 +13,6 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-//jb cookie
 var cookieParser = require('cookie-parser');
 
 
@@ -25,11 +24,6 @@ const resourceRoutes = require("./routes/resources");
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
 
-// app.use(cookieSession({
-//   name : 'session',
-//   keys : ['key1'],
-//   maxAge : 1000*60*60
-// }));
 
 //jb cookie
 app.use(cookieParser());
@@ -48,7 +42,6 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // Mount all resource routes
-// app.use("/api/users", usersRoutes(knex));
 
 app.use("/api/resources",resourceRoutes(knex));
 
@@ -57,41 +50,28 @@ app.use("/api/resources",resourceRoutes(knex));
 //jb cookie
 // run  npm install cookie-parser
 app.get("/", (req, res) => {
-  // console.log('rendering');
-  //console.log(req.session);
-  // console.log(req.body.user);
-  // console.log(req.cookies);
-  // console.log(req.cookies && req.cookies.user_id);
   let templateVars = {
     userID: req.cookies.user_id
-    //userID: document.cookie
   };
-  // console.log("HAZ", req.session.user_id );
   res.render("homepage", templateVars);
 });
 
-//if sending cookie server side then use the template format
 
 app.get("/favs", (req, res) => {
-  // console.log('rendering');
   console.log(req.session)
   res.render("favorites");
 });
   
 app.get("/login", (req,res) => {
-  console.log("click")
   res.render("login");
 });
 
 app.post("/login", (req,res) => {
-  console.log("login", req.body);
   req.session.user_id = req.body.userID;
   res.redirect("/");
 });
 
 app.get("/:id", (req, res) => {
-  // console.log('rendering');
-  console.log(req.session)
   res.render("specificResource");
 });
 

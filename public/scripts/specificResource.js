@@ -7,22 +7,31 @@ $(document).ready(function(){
   const commentButton = $('.commentBox input');
   const pathName = window.location.pathname;
   const pathInt = parseInt(pathName.slice(1,pathName.length));
+  const commentContainer = $('.comments');
 
   const renderPage = () => {
     $('#anchor').empty();
-    // console.log('this is path name', pathInt);
     $.get('/api/resources/'+ pathInt) //---->>> 2 is resource id, hardcoded
       .then((object) => {
-        console.log(object);
         if(Cookies.get('user_id') === undefined) {
-          renderUserPublicPage(object);
-          // console.log('i am public');
+         renderPublicPage(object);
         } else {
           renderUserSpecificPage(object);
-          // console.log('i am private');
         }
       }); 
   };
+
+  const renderPublicPage = (resource) => {
+    renderLikes(resource.likes)
+    renderRank(resource.ranks)
+    renderResources(resource.resourceProperties[0])
+    renderComments(resource.comments)
+    $('form.like').hide();
+    $('form.unlike').hide();
+    $('form.rankBox').hide();
+    $('.commentBox').hide();
+    
+  }
 
   const renderUserSpecificPage = (resource) => {
     renderComments(resource.comments); 
@@ -36,12 +45,12 @@ $(document).ready(function(){
     
   };
   const renderComments = (comments) => {
-    // $('.comment-box').empty();
+    commentContainer.empty();
     const reverseComments = comments.reverse()
     for(comment of reverseComments) {
-      // console.log(comment);
-      $('.comment-box').append(renderComment(comment));
+      commentContainer.append(renderComment(comment));
     }
+    $('.comment-box').append(commentContainer);
   };
 
   const renderComment = (comment) => {
@@ -62,19 +71,17 @@ $(document).ready(function(){
 
   const renderRank = (rank) => {
     $('.averageRank').empty();
-    console.log(rank[0].avg);
     if(rank[0].avg === null) {
       $('.averageRank').text('No rank');
     }
     else {
       const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
-      $('.averageRank').append($('<p>').text(avg_rank));
+      $('.averageRank').append($('<p>').text(`The Average Rank is : ${avg_rank}`));
     }
   };
 
   const renderResources = (properties) => {
     $('div.properties').empty();
-    console.log(properties);
     const createdWhen = properties.create_at;
     const createdThen = createdWhen.slice(0,-14);
     $('div.properties')
@@ -105,7 +112,6 @@ $(document).ready(function(){
 }
 
   const checkPersonalLike = (personalLikes) => {
-    console.log('got into checkpersonalLikes');
     $('.personalLike').empty();
     if(personalLikes === undefined) {
       $('.personalLike').text('Not Liked');
@@ -113,9 +119,7 @@ $(document).ready(function(){
       $('form.unlike').hide();
     }
     else {
-      console.log('got in defined');
       for(personalLike of personalLikes) {
-        console.log('got into the personalLikes for loop');
         if(personalLike.user_id === parseInt(Cookies.get('user_id'))){
           $('.personalLike').text('LIKED!');
           $('form.like').hide(); 
@@ -129,19 +133,6 @@ $(document).ready(function(){
     }
 }
 
-  const renderUserPublicPage = (resource) => {
-    console.log('i am going public');
-    renderLikes(resource.likes)
-    renderRank(resource.ranks)
-    renderResources(resource.resourceProperties[0])
-    renderComments(resource.comments)
-    $('form.like').hide();
-    $('form.unlike').hide();
-    $('form.rankBox').hide();
-    $('.commentBox').hide();
-    
-  }
-
   likeButton.on('click', function(e) {
     e.preventDefault();
     $.post('/api/resources/'+ pathInt + '/like',{user_id : Cookies.get('user_id')});
@@ -150,15 +141,14 @@ $(document).ready(function(){
     $('form.unlike').show();
   });
 
+  // under Construction
   unLikeButton.on('click', function(e) {
     e.preventDefault();
-    // console.log('inside the unlike button');
     $.post('/api/resources/'+ pathInt +'/like/delete',{user_id : Cookies.get('user_id')})
     });
   
 
   logInButton.on('click', function(e) {
-    // console.log('the text value is ' + user_id.val());
     e.preventDefault();
     Cookies.set('user_id',user_id.val());
     renderPage();
@@ -168,15 +158,13 @@ $(document).ready(function(){
     e.preventDefault();
     const rankValue = $('select option:selected').val()
     $.post('/api/resources/'+ pathInt + '/rank',{user_id : Cookies.get('user_id'),
-      rank_value : parseInt(rankValue)});
+      rank_value : parseInt(rankValue)}).then(renderPage());
     renderPage();
   });
 
   commentButton.on('click', function(e) {
     e.preventDefault();
     const newComment = $('.commentBox textarea').val();
-    // console.log('inside the comment');
-    // console.log('the comment is ', newComment);
     $.post('/api/resources/'+ pathInt +'/comment', {user_id :Cookies.get('user_id'), comment : newComment})
     renderPage();
   })

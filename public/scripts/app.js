@@ -3,7 +3,6 @@
 $(document).ready(function () {
   $(".new-url").hide();
   $(".no-entry").hide()
-  //console.log(document.cookie);
 
 
   const $grid = $(".grid").masonry({
@@ -23,8 +22,6 @@ $(document).ready(function () {
     $("<div>").addClass("title dataResource").text(resource.title).appendTo(newDiv);
     $("<div>").addClass("description dataResource ").text(resource.description).appendTo(newDiv);
     $("<div>").addClass("category dataResource ").text(resource.category).appendTo(newDiv);
-    // const imgURL = resource.url_img;
-    // newDiv.css("background", "url(" + imgURL + ")" + " center / cover no-repeat");
     let newLink = $("<a>").attr("href", `/${resource.id}`)
     newDiv.appendTo(newLink);
     newLink.prependTo($(".existing-resource"));
@@ -37,7 +34,6 @@ $(document).ready(function () {
     $.ajax({
       method: "GET",
       url: "api/resources/",
-      //data: {user:document.cookie}
     }).done((resources) => {
       for (let resource of resources) {
         createTile(resource);
@@ -45,20 +41,6 @@ $(document).ready(function () {
 
     });
   });
-
-  // $(() => {
-  //   $.ajax({
-  //     method: "GET",
-  //     url: `/wall/${document.cookie.split("=")[1]}`,
-  //     //data: {user:document.cookie}
-  //   }).done((resources) => {
-  //     for(let resource of resources) {
-  //       createTile(resource);
-  //     }
-
-  //   });
-  // });
-
   const addButton = $("#nav-bar .add-button");
   addButton.on("click", function () {
     const newResourceSection = $(".new-url");
@@ -75,27 +57,21 @@ $(document).ready(function () {
     event.preventDefault();
 
     let idtest = document.cookie.split('=')[1];
-    //console.log('Add user_id:  ' + idtest);
 
     const data = {
       url: $(".url-area").val(),
       title: $(".title-area").val(),
       description: $(".descr-area").val(),
-      /**test */
       user_id: idtest,
-      /**test */
       category: $(".cat-area").val(),
       url_img: $(".img-area").val()
     };
-    //console.log('User_id: ' + data.user_id)
     $.ajax({
       method: "POST",
       url: "api/resources",
       data: data
     }).done((response) => {
-      console.log(response);
       const resourceInfo = response.result[0];
-      console.log("resourceinfo", resourceInfo);
       createTile(resourceInfo);
     });
   });
@@ -103,12 +79,9 @@ $(document).ready(function () {
   //if search term is blank load all resources or just send error message
   const searchBar = $(".searchbar a");
   searchBar.on('click', function (event) {
-    // var data = $(".search_input").val();
     var data = $(".search_input").val().toLowerCase();
-    //console.log("Jack 1",  data);
 
     if (data === "") {
-      console.log("insideif")
       $(".no-entry").slideDown("slow");
     } else {
       $(".no-entry").hide()
@@ -116,15 +89,11 @@ $(document).ready(function () {
         url: '/api/resources/search/' + data,
         method: 'GET',
         dataType: 'json',
-        success: function (result) {
-          console.log("we are good ", result);
-        },
         error: function (err) {
           console.log("we are not good ", err);
         }
       }).done((resources) => {
 
-        console.log("are you geting here?");
         $(".grid").html("");
         for (let resource of resources) {
           createTile(resource);
