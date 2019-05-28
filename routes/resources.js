@@ -11,7 +11,7 @@ module.exports = (knex) => {
   router.post('/', (req, res) => {
     knex('resources')
       .insert(req.body)
-      .returning(['url','title','description','user_id','category','create_at','url_img'])
+      .returning(['id','url','title','description','user_id','category','create_at','url_img'])
       .then((result) => {
         res.json({ message: "Successful request to resource table", result });
       });

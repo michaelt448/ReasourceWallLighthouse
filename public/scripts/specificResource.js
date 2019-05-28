@@ -75,8 +75,8 @@ $(document).ready(function(){
       $('.averageRank').text('No rank');
     }
     else {
-      const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(2);
-      $('.averageRank').append($('<p>').text(`The Average Rank is : ${avg_rank}`));
+      const avg_rank = parseFloat(Math.round(rank[0].avg * 100) / 100).toFixed(1);
+      $('.averageRank').append($('<p>').text(`average rank: ${avg_rank}`));
     }
   };
 
@@ -90,7 +90,7 @@ $(document).ready(function(){
       .append(`<p class = 'category'> ${properties.category}</p>`)
       .append(`<p class = 'url'> <a href = "${properties.url}">${properties.url}</a></p>`)
       .append(`<img class = 'image' src = ${properties.url_img}>`)
-      .append(`<p class = 'createdTime'> created at: ${createdThen}</p>`)
+      .append(`<p class = 'createdTime'> created: ${createdThen}</p>`)
       .addClass('properties');
 
   };
@@ -98,16 +98,16 @@ $(document).ready(function(){
   const checkPersonalRank = (personalRanks) => {
     $('.personalRank').empty();
     if(personalRanks === undefined) {
-      $('.personalRank').append(`<p> No personal rank</p>`);
+      $('.personalRank').append(`<p> </p>`);
     } 
     else {
       for(personalRank of personalRanks) {
         if(personalRank.user_id === parseInt(Cookies.get('user_id'))){
-          $('.personalRank').append(`<p>${parseInt(personalRank.rank_value)}</p>`);
+          $('.personalRank').append(`<p>my ranking: ${parseInt(personalRank.rank_value)}</p>`);
           return;
         }
      }
-      $('.personalRank').append(`<p> No personal rank</p>`);
+      $('.personalRank').append(`<p> </p>`);
   }
 }
 

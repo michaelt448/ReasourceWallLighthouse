@@ -5,6 +5,22 @@ $border-radius: 10px;
 body {
   background-color: #EEE;
 }
+  .resource span {
+    font-style:italic;
+}
+.main-navbar {
+  color: #FBEABF;
+  background-color: #103c42;  
+
+  .navbar-brand {
+    font-size: 45px;
+
+    span{
+      font-style: italic;
+      font-family: system-ui; 
+      }
+  }
+}
 
 #nav-bar {
   position: fixed;
@@ -46,7 +62,6 @@ body {
   text-align: center;
   padding: 20px;
   background-color: #95e1d3;
-  height: 180px;
   opacity: 0.7;
   display:flex;
 
@@ -58,8 +73,8 @@ body {
   align-items: center;
   
   .eachResource:hover {
-  @extend %each-resource-shared;
-  
+    @extend %each-resource-shared;
+    
   .background {
     filter:saturate(30%) blur(3px);
     transition: 1s;
@@ -80,7 +95,7 @@ body {
     font:bold;
     display:block;
     position:relative;
-    right:4vw;
+    right:3vw;
     font-size:.9em;
     }
   }
@@ -91,6 +106,7 @@ body {
     border-color: #c6c6c6;
     border-width: 1px;
     align-items: center;
+    padding:2px;
       
       .title {
       margin-bottom:2px;
@@ -146,7 +162,7 @@ body {
 
 .searchbar{
   margin-bottom: auto;
-  margin-top: 5.5em;
+  margin-top: 8em;
   height: 60px;
   background-color: #353b48;
   border-radius: 30px;

@@ -24,7 +24,9 @@
 
   <body>
   <% include partials/_header %> 
-  
+
+
+
   <div class="container h-100">
       <div class="d-flex justify-content-center h-100">
         <div class="searchbar">
@@ -37,14 +39,32 @@
   <main class="container">
 
       <section class="new-url">
-        <h2>Add new resource:</h2>
         <form method="POST" action="/">
-          <textarea placeholder="Add URL..." required="required" class="url-area" name="text"></textarea>
-          <textarea placeholder="Title..." required="required" class="title-area" name="text"></textarea>
-          <textarea placeholder="Description..." required="required" class="descr-area" name="text"></textarea>
-          <textarea placeholder="Category..." required="required" class="cat-area" name="text"></textarea>
-          <textarea placeholder="Image URL..." class="img-area"></textarea>
-          <input type="submit" value="Add" class="add-resource"/>
+          <div class="row mb-1">
+            <div class="col-sm">
+              <h2>Add new resource:</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <input type=text placeholder="Add URL..." required="required" class="url-area form-control" name="url" />
+            </div>
+            <div class="col-sm">
+              <input placeholder="Title..." required="required" class="title-area form-control" name="title" />            
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm">
+              <input placeholder="Description..." required="required" class="descr-area form-control" name="description" />
+            </div>
+            <div class="col-sm">
+              <input placeholder="Category..." required="required" class="cat-area form-control" name="category" />
+            </div>
+            <div class="col-sm">
+              <input placeholder="Image URL..." class="img-area form-control" name="url" />            
+            </div>
+          </div>
+          <input type="submit" value="Add" class="add-resource btn btn-info mt-2 float-right"/>
         </form>
       </section>
 
